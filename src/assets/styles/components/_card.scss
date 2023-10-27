@@ -1,0 +1,49 @@
+.card-wrapper{
+    position: relative;
+    border-radius: 12px;
+    .heart{
+        border-radius: 100%;
+        position: absolute;
+        top:10px;
+        right: 10px;
+        z-index: 1;
+
+    }
+    .card{
+        .image{
+            img{
+                border-radius: 6px;
+                width: 100%;
+                min-height: 400px;
+                object-fit: cover;
+            }
+            
+        }
+        .details{
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .name{
+                color: #3C4242;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                color: #3C4242;
+            }
+            .price{
+                padding: 10px 20px;
+                border: none;
+                border-radius: 8px;
+            }
+        }
+    }
+    &:hover{
+        cursor: pointer;
+        box-shadow: rgba(0, 0, 0, 0.12) 1px 1px 10px 1px;
+        // border-radius: 12px;
+
+    }
+}
+

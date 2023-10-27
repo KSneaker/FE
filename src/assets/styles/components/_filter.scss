@@ -1,0 +1,60 @@
+.wrapper-filter{
+    display: flex;
+    .filter{
+        position: sticky;
+        top:63px;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 1px 1px;
+        .title{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            span{
+                color: #807D7E;
+                font-size: 22px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                letter-spacing: 0.44px;
+            }
+        }
+        .filter-name{
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            padding:20px;
+            .brand{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                line-height: 200%;
+                color: #8A8989;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            }
+        }
+        .filter-price{
+            padding:20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            input{
+                margin: 10px;
+                padding: 5px ;
+                width: 20%;
+                outline: none;
+            }
+        }
+        .filter-size{
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap:20px;
+            .size{
+                padding:10px 20px
+            }
+        }
+    }
+}

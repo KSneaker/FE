@@ -2,13 +2,14 @@ import Button from "../../../UI/Button";
 import { useNavigate } from "react-router-dom";
 import CardShoe from "./CardShoe";
 import useFetch from "../../../../hooks/useFetch";
+import { BASE_URL } from "../../../../config";
 const BrandShoe = (props: any) => {
     let navigate = useNavigate();
     const routeChange = () => {
         let path = props.name;
         navigate(path);
     }
-    const { data: data, isLoading } = useFetch(`http://localhost:8080/${props.name}`)
+    const { data: data, isLoading } = useFetch(`${BASE_URL}/${props.name}`)
     console.log('>>data', data)
 
     return (

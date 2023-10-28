@@ -15,10 +15,11 @@ import useFetch from '../../hooks/useFetch';
 import VND from '../../functions/VND';
 import { getWindowDimensions } from '../../hooks/useWindowDimensions';
 import NotFound from './NotFound';
+import { BASE_URL } from '../../config';
 const ProductDetailPage = () => {
     const param = useParams()
 
-    const { data, isLoading }: any = useFetch(`http://localhost:8080/product/${param.id}`)
+    const { data, isLoading }: any = useFetch(`${BASE_URL}/product/${param.id}`)
     const dataDetail = data[0];
     console.log('dataa0>>>', data[0])
     const [sizeActive, setSizeActive] = useState([])

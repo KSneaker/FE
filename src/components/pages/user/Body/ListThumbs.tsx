@@ -10,9 +10,10 @@ import 'swiper/css/thumbs';
 
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import useFetch from '../../../../hooks/useFetch';
+import { BASE_URL } from '../../../../config';
 const ListThumbs = ({ productID }: any) => {
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-    const { data, isLoading } = useFetch(`http://localhost:8080/thumb/${productID}`)
+    const { data, isLoading } = useFetch(`${BASE_URL}thumb/${productID}`)
     return (
         <div className="product-img row">
             <Swiper

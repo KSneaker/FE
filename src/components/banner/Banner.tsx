@@ -26,10 +26,10 @@ const Banner = () => (
     // onSlideChange={() => console.log('slide change')}
     >
         <SwiperSlide>
-            <img className='banner' src={slide1} alt="" />
+            <img className='banner' src={slide2} alt="" />
         </SwiperSlide>
         <SwiperSlide>
-            <img className='banner' src={slide2} alt="" />
+            <img className='banner' src={slide1} alt="" />
         </SwiperSlide>
         <SwiperSlide>
             <img className='banner' src={slide1} alt="" />

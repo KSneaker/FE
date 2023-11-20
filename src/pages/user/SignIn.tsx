@@ -2,14 +2,9 @@ import FormSignIn from "../../components/Form/FormSignIn";
 
 const SignInPage = () => {
     return (
-        <div className="page-container">
+        <div className="background-image">
             <div className="form-container">
-                <div className="form">
-                    <div className="title">
-                        Đăng nhập
-                    </div>
-                    <FormSignIn />
-                </div>
+                <FormSignIn />
             </div>
         </div>
     );

@@ -1,57 +1,64 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../redux/apiRequest";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../../redux/actions/actionsAuth";
+import { Form, Input } from "antd";
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { openNotification } from "../../functions/Notification";
+import SubmitBtn from "./SubmitBtn";
+
 const FormSignIn = () => {
-    const [showPassword, setShowPassword] = useState(false)
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const handleShowPassword = (e: any) => {
-        e.preventDefault()
-        setShowPassword(!showPassword)
+    const onFinish = (e: any) => {
+        loginUser(e, dispatch, navigate, openNotification)
     }
-    const handleSubmitForm = (e: any) => {
-        e.preventDefault()
-        const newUser = {
-            username: username,
-            password: password
-        }
-        loginUser(newUser, dispatch, navigate)
-    }
-    return (
-        <div className='form-content' >
-            <div className="input-field">
-                <label htmlFor="userName">Tên đăng nhập</label>
-                <input
-                    onChange={(e) => setUsername(e.target.value)}
-                    value={username} placeholder='Nhập tên đăng nhập'
-                    type="text"
-                    id="userName" />
-            </div>
-            <div className="input-field password">
-                <label htmlFor="password">Mật khẩu</label>
-                <input
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password} placeholder='Nhập mật khẩu'
-                    type={showPassword ? "text" : "password"}
-                    id="password" />
-                {password
-                    ?
-                    <i className={showPassword ? "fa-solid fa-eye-slash togglePassword" : "fa-solid fa-eye togglePassword"}
-                        onClick={(e) => handleShowPassword(e)}>
-                    </i>
-                    :
-                    null
-                }
+    const [form] = Form.useForm();
 
+    return (
+
+        <div className="form">
+            <div className="title">
+                Đăng nhập
             </div>
-            <button disabled={username && password ? false : true}
-                className={username && password ? "button active " : "button not-allowed"} type="submit"
-                onClick={(e) => handleSubmitForm(e)}
-            >Đăng nhập</button>
-        </div >
+            <Form form={form}
+                style={{ width: '100%' }}
+                name="normal_login"
+                className="login-form"
+                onFinish={onFinish}
+            >
+                <Form.Item
+                    name="username"
+
+                    rules={[{ required: true, message: 'Please input your Username!' }]}
+                >
+                    <Input size="large" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Tên đăng nhập" />
+                </Form.Item>
+                <Form.Item
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your Password!' }]}
+                >
+                    <Input.Password
+                        size="large"
+                        prefix={<LockOutlined className="site-form-item-icon" />}
+                        type="password"
+                        placeholder="Mật khẩu"
+                    />
+
+                </Form.Item>
+                <Form.Item>
+                    <a className="login-form-forgot" href="#">
+                        Quên mật khẩu?
+                    </a>
+                </Form.Item>
+
+                <Form.Item >
+                    <SubmitBtn form={form} />
+                </Form.Item>
+                <Form.Item>
+                    Bạn mới biết đến KSneaker? <Link style={{ textDecoration: 'underline' }} to='/sign-up'>Đăng ký ngay</Link>
+                </Form.Item>
+            </Form>
+        </div>
     );
 }
 

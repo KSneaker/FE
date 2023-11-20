@@ -6,14 +6,21 @@ import User from "./Header/User";
 import Search from "./Header/Search";
 import Menu from "./Header/Menu";
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
-const Header = () => {
+const Header = ({ login }: { login: any }) => {
     const { width } = useWindowDimensions();
-    console.log(width)
+    // console.log(width)
     useEffect(() => {
-        console.log('render')
+        // console.log('render')
     }, [])
-
-    if (width <= 576) {
+    if (login) {
+        return (
+            <div className="page-container navbar wrapper">
+                <Brand height={60} />
+                <a href="#" style={{ color: '#000' }}>Bạn cần hỗ trợ?</a>
+            </div>
+        )
+    }
+    else if (width <= 576) {
         return (
             <div className="page-container navbar wrapper">
                 <Brand height={60} />

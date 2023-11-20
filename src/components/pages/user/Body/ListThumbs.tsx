@@ -11,20 +11,27 @@ import 'swiper/css/thumbs';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import useFetch from '../../../../hooks/useFetch';
 import { BASE_URL } from '../../../../config';
+import { Spin } from 'antd';
 const ListThumbs = ({ productID }: any) => {
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-    const { data, isLoading } = useFetch(`${BASE_URL}thumb/${productID}`)
-    return (
+    const { data, isLoading } = useFetch(`${BASE_URL}/thumb/${productID}`)
+    if (isLoading) {
+        return <div className="product-img row" style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Spin size='small'></Spin>
+        </div>
+    }
+    else return (
         <div className="product-img row">
             <Swiper
                 spaceBetween={10}
                 navigation={true}
+                // loop={true}
                 thumbs={thumbsSwiper ? { swiper: thumbsSwiper } : undefined}
-                modules={[Navigation, Thumbs]}
+                modules={[FreeMode, Navigation, Thumbs]}
                 className="thumbnail"
             >
                 {
-                    data.map((thumb: any, index: number) => {
+                    data?.map((thumb: any, index: number) => {
                         return (
                             <SwiperSlide key={index}>
                                 <img className='thumb' src={thumb.thumbnail} alt="" />
@@ -35,16 +42,16 @@ const ListThumbs = ({ productID }: any) => {
             </Swiper>
             <Swiper
                 onSwiper={setThumbsSwiper}
-                // spaceBetween={10}
+                style={{ textAlign: 'center' }}
                 slidesPerView={6}
                 spaceBetween={10}
                 freeMode={true}
-                watchSlidesProgress={false}
-                modules={[FreeMode, Thumbs]}
+                watchSlidesProgress={true}
                 className='list'
+                modules={[FreeMode, Navigation, Thumbs]}
             >
                 {
-                    data.map((thumb: any, index: number) => {
+                    data?.map((thumb: any, index: number) => {
                         return (
                             <SwiperSlide key={index}>
                                 <img className='list-thumb' src={thumb.thumbnail} alt="" />

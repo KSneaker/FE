@@ -9,12 +9,12 @@ const onChange = (key: string) => {
 const items: TabsProps['items'] = [
     {
         key: '1',
-        label: 'Description',
+        label: 'Mô tả sản phẩm',
         children: <Description />
     },
     {
         key: '2',
-        label: 'Commnent',
+        label: 'Đánh giá và bình luận',
         children: <Comment />,
     }
 ];

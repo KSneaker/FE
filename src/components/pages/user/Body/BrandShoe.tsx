@@ -10,7 +10,7 @@ const BrandShoe = (props: any) => {
         navigate(path);
     }
     const { data: data, isLoading } = useFetch(`${BASE_URL}/${props.name}`)
-    console.log('>>data', data)
+    // console.log('>>data', data)
 
     return (
         <div>

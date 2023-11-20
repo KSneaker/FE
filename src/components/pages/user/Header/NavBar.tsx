@@ -11,7 +11,7 @@ const NavBar = () => {
             <NavLink className="nav-bar-item" to="/adidas">
                 Giày Adidas
             </NavLink>
-            <NavLink className="nav-bar-item" to="/adidas">
+            <NavLink className="nav-bar-item" to="/converse">
                 Giày Converse
             </NavLink>
             <NavLink className="nav-bar-item" to="/about">

@@ -1,4 +1,4 @@
-import { useState, ReactNode } from 'react';
+import { useState, ReactNode, useEffect } from 'react';
 import logo from '../../../assets/images/logo.png';
 import {
     HomeOutlined,
@@ -11,7 +11,8 @@ import {
     BellOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Tooltip, Badge } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 const { Header, Sider, Content } = Layout;
 
 const AdminContent = ({ children }: { children: ReactNode }) => {
@@ -19,7 +20,13 @@ const AdminContent = ({ children }: { children: ReactNode }) => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
-
+    const user = useSelector((state: any) => state.auth.login?.currentUser)
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (!user) {
+            navigate('/sign-in')
+        }
+    }, [])
     return (
         <Layout>
             <Sider width={250} trigger={null} collapsible collapsed={collapsed}>
@@ -45,6 +52,11 @@ const AdminContent = ({ children }: { children: ReactNode }) => {
                         },
                         {
                             key: '4',
+                            icon: <PercentageOutlined />,
+                            label: <Link to='brand-manager'>Quản lý hãng</Link>
+                        },
+                        {
+                            key: '5',
                             icon: <PercentageOutlined />,
                             label: <Link to=''>Khuyến mại</Link>
                         },

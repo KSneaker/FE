@@ -8,11 +8,13 @@ import ProductDetailPage from '../pages/user/ProductDetailPage';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Dashboard from '../pages/admin/Dashboard';
 import CartPage from '../pages/user/CartPage';
-import User from '../pages/admin/User';
-import Product from '../pages/admin/Product';
+import User from "../pages/admin/User";
+import ProductAdmin from '../pages/admin/ProductAdmin';
 import AdminLayout from '../components/layout/admin/index';
 import UserLayout from '../components/layout/user/index'
 import NotFound from '../pages/user/NotFound';
+import LoginLayout from '../components/layout/login';
+import BrandAdmin from '../pages/admin/BrandAdmin';
 const SwitchRoute = () => {
     return (
 
@@ -23,7 +25,8 @@ const SwitchRoute = () => {
             <Route path='/admin' element={<AdminLayout />}>
                 <Route index element={<Dashboard />}></Route>
                 <Route path='user-manager' element={<User />}></Route>
-                <Route path='product-manager' element={<Product />}></Route>
+                <Route path='brand-manager' element={<BrandAdmin />}></Route>
+                <Route path='product-manager' element={<ProductAdmin />}></Route>
             </Route>
 
 
@@ -34,9 +37,11 @@ const SwitchRoute = () => {
                 <Route path='cart' element={<CartPage />}></Route>
                 <Route path='about' element={<AboutPage />}></Route>
                 <Route path='product/:id' element={<ProductDetailPage />}></Route>
+                <Route path='*' element={<NotFound />}></Route>
+            </Route>
+            <Route path='/' element={<LoginLayout />}>
                 <Route path='sign-in' element={<SignInPage />}></Route>
                 <Route path='sign-up' element={<SignUpPage />}></Route>
-                <Route path='*' element={<NotFound />}></Route>
             </Route>
 
         </Routes>

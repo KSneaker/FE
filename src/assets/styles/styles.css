@@ -12120,10 +12120,6 @@ textarea.form-control-lg {
   gap: 10px;
   color: #000;
 }
-#header .wrapper .user-list .active .sign {
-  background-color: #8a33fd !important;
-  color: #fff;
-}
 
 #main a {
   text-decoration: none;
@@ -12274,7 +12270,7 @@ textarea.form-control-lg {
 }
 #main .product-detail-page .detail .product-information .product-price .actual-price {
   font-size: 25px;
-  color: #8a33fd;
+  color: #1677ff;
   font-weight: 500;
 }
 #main .product-detail-page .detail .product-information .product-price .old-price {
@@ -12311,7 +12307,7 @@ textarea.form-control-lg {
   gap: 30px;
 }
 #main .product-detail-page .detail .product-information .product-size .options .active {
-  background-color: #8a33fd;
+  background-color: #1677ff;
   color: #fff;
 }
 #main .product-detail-page .detail .product-information .product-add-to-cart {
@@ -12332,7 +12328,7 @@ textarea.form-control-lg {
   -moz-column-gap: 5px;
        column-gap: 5px;
   align-items: center;
-  background-color: #8a33fd;
+  background-color: #1677ff;
   color: #fff;
   text-align: center;
 }
@@ -12372,7 +12368,7 @@ textarea.form-control-lg {
 }
 #footer .wrapper .about .title {
   color: #F6F6F6;
-  font-size: 20px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 700;
   line-height: 216.9%; /* 61.988px */
@@ -12382,10 +12378,9 @@ textarea.form-control-lg {
 }
 #footer .wrapper .about ul li {
   color: #F6F6F6;
-  font-family: Causten;
   font-size: 18px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 300;
   line-height: 216.9%; /* 39.042px */
 }
 #footer .wrapper .category {
@@ -12397,7 +12392,6 @@ textarea.form-control-lg {
 }
 #footer .wrapper .category span {
   color: #F6F6F6;
-  font-family: Causten;
   font-size: 28px;
   font-style: normal;
   font-weight: 700;
@@ -12437,60 +12431,32 @@ textarea.form-control-lg {
   border: none;
 }
 
+.background-image {
+  height: 600px;
+  background-image: url("http://localhost:3000/static/media/converse.54cc5cb1c394e0997456.jpg");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+}
+
 .form-container {
   display: flex;
   justify-content: center;
-  padding: 20px;
+  align-items: center;
 }
 
 .form {
-  min-width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.12) 1px 1px 10px 1px;
+  padding: 20px;
+  min-width: 400px;
 }
 .form .title {
-  margin-top: 20px;
-  font-size: 40px;
+  font-size: 25px;
+  text-align: center;
   font-weight: bold;
-}
-.form .form-content {
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-}
-.form .form-content .input-field {
-  display: flex;
-  flex-direction: column;
-}
-.form .form-content .input-field.password {
-  position: relative;
-}
-.form .form-content .input-field.password .togglePassword {
-  position: absolute;
-  top: 37px;
-  right: 12px;
-}
-.form .form-content .input-field input {
-  outline: none;
-  border: none;
-  border-radius: 12px;
-  background-color: #F6F6F6;
-  padding: 10px;
-}
-.form .form-content .input-field input:hover {
-  border-radius: 12px;
-  outline: 1px solid #000;
-  box-sizing: border-box;
-}
-.form .form-content .active {
-  background-color: #8a33fd;
-  color: #fff;
-}
-.form .form-content .not-allowed {
-  pointer-events: auto !important;
-  cursor: not-allowed !important;
+  margin-bottom: 30px;
 }
 
 .product-divider {
@@ -12502,6 +12468,7 @@ textarea.form-control-lg {
   border-radius: 12px;
 }
 .card-wrapper .heart {
+  box-shadow: rgba(0, 0, 0, 0.12) 1px 1px 10px 1px;
   border-radius: 100%;
   position: absolute;
   top: 10px;

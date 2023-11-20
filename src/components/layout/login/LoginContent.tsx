@@ -1,11 +1,11 @@
 import React, { ReactNode } from "react";
 import Header from "../../pages/user/Header";
 import Footer from "../../pages/user/Footer";
-const UserContent = ({ children }: { children: ReactNode }) => {
+const LoginContent = ({ children }: { children: ReactNode }) => {
     return (
         <div className="App">
             <header id="header">
-                <Header login={false} />
+                <Header login={true} />
             </header>
             <main id="main">
                 {children}
@@ -17,4 +17,4 @@ const UserContent = ({ children }: { children: ReactNode }) => {
     );
 }
 
-export default UserContent;
+export default LoginContent;

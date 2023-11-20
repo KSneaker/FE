@@ -1,81 +1,103 @@
-import { useState } from "react";
-import { registerUser } from "../../redux/apiRequest";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../../redux/actions/actionsAuth";
+import { Form, Input } from "antd";
+import { UserOutlined, LockOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons'
+import SubmitBtn from "./SubmitBtn";
 const FormSignUp = () => {
-    const [showPassword, setShowPassword] = useState(false)
-    const [showRepassword, setShowRepassword] = useState(false)
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [repassword, setRepassword] = useState('')
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const handleShowPassword = (e: any) => {
-        e.preventDefault()
-        setShowPassword(!showPassword)
+    const onFinish = (e: any) => {
+        registerUser(e, dispatch, navigate)
     }
-    const handleShowRepassword = (e: any) => {
-        e.preventDefault()
-        setShowRepassword(!showRepassword)
-    }
-    const handleSubmitForm = (e: any) => {
-        e.preventDefault()
-        const newUser = {
-            username: username,
-            password: password
-        }
-        registerUser(newUser, dispatch, navigate)
-    }
+    const [form] = Form.useForm();
     return (
-        <div className='form-content' >
-            <div className="input-field">
-                <label htmlFor="userName">Tên đăng nhập</label>
-                <input
-                    onChange={(e) => setUsername(e.target.value)}
-                    value={username} placeholder='Nhập tên đăng nhập'
-                    type="text"
-                    id="userName" />
+        <div className="form">
+            <div className="title">
+                Đăng ký
             </div>
-            <div className="input-field password">
-                <label htmlFor="password">Mật khẩu</label>
-                <input
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password} placeholder='Nhập mật khẩu'
-                    type={showPassword ? "text" : "password"}
-                    id="password" />
-                {password
-                    ?
-                    <i className={showPassword ? "fa-solid fa-eye-slash togglePassword" : "fa-solid fa-eye togglePassword"}
-                        onClick={(e) => handleShowPassword(e)}>
-                    </i>
-                    :
-                    null
-                }
+            <Form form={form}
+                style={{ width: '100%' }}
+                name="normal_login"
+                className="login-form"
+                onFinish={onFinish}
+            >
+                <Form.Item
+                    name="username"
+                    rules={[
+                        { required: true, message: 'Vui lòng nhập tên đăng nhập!' }
+                        , ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (getFieldValue('username')?.indexOf(' ') === -1) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error('Tên đăng nhập không được chứa khoảng trắng!'));
+                            },
+                        }),
+                    ]}
+                >
+                    <Input size="large" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Tên đăng nhập" />
+                </Form.Item>
+                <Form.Item
+                    name="password"
+                    rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
+                >
+                    <Input.Password
+                        size="large" prefix={<LockOutlined className="site-form-item-icon" />}
+                        type="password"
+                        placeholder="Mật khẩu"
+                    />
 
-            </div>
-            <div className="input-field password">
-                <label htmlFor="password">Nhắc lại mật khẩu</label>
-                <input
-                    onChange={(e) => setRepassword(e.target.value)}
-                    value={repassword} placeholder='Nhập lại mật khẩu'
-                    type={showRepassword ? "text" : "password"}
-                    id="password" />
-                {password
-                    ?
-                    <i className={showRepassword ? "fa-solid fa-eye-slash togglePassword" : "fa-solid fa-eye togglePassword"}
-                        onClick={(e) => handleShowRepassword(e)}>
-                    </i>
-                    :
-                    null
-                }
+                </Form.Item>
+                <Form.Item
+                    name="confirm"
+                    dependencies={['password']}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng xác nhận mật khẩu!',
+                        },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('password') === value) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error('Mật khẩu không trùng khớp!'));
+                            },
+                        }),
+                    ]}
+                >
+                    <Input.Password
+                        size="large" prefix={<LockOutlined className="site-form-item-icon" />}
+                        type="password"
+                        placeholder="Xác nhận mật khẩu"
+                    />
+                </Form.Item>
+                <Form.Item
+                    name="email"
+                    rules={[
+                        { required: true, message: 'Vui lòng nhập email!' }
+                    ]}
+                >
+                    <Input size="large" prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
+                </Form.Item>
+                <Form.Item
+                    name="phone_number"
+                    rules={[
+                        { required: true, message: 'Vui lòng nhập số điện thoại!' }
+                    ]}
+                >
+                    <Input size="large" prefix={<PhoneOutlined className="site-form-item-icon" />} placeholder="Số điện thoại" />
+                </Form.Item>
 
-            </div>
-            <button disabled={username && password && repassword ? false : true}
-                className={username && password && repassword ? "button active " : "button not-allowed"} type="submit"
-                onClick={(e) => handleSubmitForm(e)}
-            >Đăng ký</button>
+                <Form.Item >
+                    <SubmitBtn form={form} />
+                </Form.Item>
+                <Form.Item>
+                    Bạn đã có tài khoản KSneaker? <Link to='/sign-in'>Đăng nhập</Link>
+                </Form.Item>
+
+            </Form>
         </div >
     );
 }

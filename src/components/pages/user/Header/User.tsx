@@ -6,7 +6,6 @@ const User = () => {
     const user = useSelector((state: any) => state.auth.login.currentUser?.user)
     console.log('>>user', user)
     return (
-        // <UserLayout>
         < div className="user-list">
             {(user) ?
                 <>
@@ -39,7 +38,6 @@ const User = () => {
                 </>
             }
         </div>
-        // </UserLayout>
     );
 }
 

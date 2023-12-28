@@ -48,14 +48,17 @@
         .user-list{
             display: flex;
             gap:12px;
-            // .sign{
-            //     display: flex;
-            //     gap:10px
-            // }
             .sign{
                 gap:10px;
-                color:$black
+                color:$black;
+                display:flex;
+                justify-content: center;
+
              }
+             .active{
+                color: #fff;
+                background-color: $primary_color !important;
+            }
         }
     }
 

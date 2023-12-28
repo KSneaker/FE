@@ -1,0 +1,81 @@
+.all-order-summary{
+    .order-summary {
+        display: flex;
+        padding: 10px 0px;
+        gap: 20px;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12) ; 
+        align-items: center;
+        .rectangle {
+            height: 63px;
+            width: 63px;
+        }
+            .div{
+            flex: 1;
+            width: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            .title {
+                max-width: 220px;
+                color: transparent;
+                font-size: 14px;
+                font-weight: 700;
+                letter-spacing: 0.28px;
+                line-height: normal;
+                color: #3c4242;
+            }
+            .size-quantity{
+                    color: transparent;
+                    font-size: 14px;
+                    font-weight: 400;
+                    letter-spacing: 0.28px;
+                    line-height: normal;
+                    .size{
+                        margin: 0 20px 0 0;
+                    }
+                    .text{
+                        color: #3c4242;
+                        font-weight: 700;
+                    }
+                    .text-2{
+                        color: #807d7e;
+                        font-weight: 500;
+                    }
+                
+            }
+        }
+        .text-wrapper {
+            color: #807d7e;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.28px;
+            line-height: normal;
+        }
+    }
+}
+.total{
+    .subtotal{
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12) ; 
+        align-items: center;
+        .title {
+            max-width: 220px;
+            color: transparent;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.28px;
+            line-height: normal;
+            color: #3c4242;
+        }
+        .text-wrapper {
+            color: #807d7e;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.28px;
+            line-height: normal;
+        }
+    }
+}

@@ -1,9 +1,10 @@
-.wrapper-filter{
-    display: flex;
+// .wrapper-filter{
+//     display: flex;
     .filter{
         position: sticky;
         top:63px;
         box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 1px 1px;
+        border-radius: 12px;
         .title{
             display: flex;
             justify-content: space-between;
@@ -57,4 +58,4 @@
             }
         }
     }
-}
+// }

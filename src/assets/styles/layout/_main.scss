@@ -21,9 +21,8 @@
     .product{
         display: flex;
         row-gap: 20px;
-        justify-content: space-around;
         flex-wrap: wrap;
-        .container{
+        .container-product{
             padding: 10px;
             box-sizing: border-box;
         }
@@ -46,8 +45,7 @@
         }
     }
 
-    // filter
-    @import '../components/filter';
+   
 
     .product-detail-page{
         .detail{
@@ -73,7 +71,7 @@
                     }
                 }
                 .swiper-slide-thumb-active {
-                   border: 1px solid $black;
+                   border: 1px solid $primary_color;
                 }
             }
             .product-information{
@@ -107,7 +105,7 @@
                     }
                     .old-price{
                         font-size: 20px;
-                        text-decoration: line-through;
+                        text-decoration: line-through !important;
                         font-weight: 300;
                     }
                 }
@@ -129,12 +127,13 @@
                             display: flex;
                             flex-direction: row;
                             justify-items: center;
-                            text-decoration: underline;
+                            text-decoration: underline !important;
                         }
                         
                     }
                     .options{
-                    width: 100% ;
+                        align-items: center;
+                        width: 100% ;
                         margin: 20px 0px;
                         display: flex;
                         flex-wrap: wrap;
@@ -160,8 +159,6 @@
                         flex-direction: row;
                         column-gap: 5px;
                         align-items: center;
-                        background-color: $primary_color;
-                        color: $white;
                         text-align: center;
                     }
                     .price{
@@ -189,8 +186,10 @@
        
     }
 
-    .description{
-        margin-top: 20px;
-    }
-
+   
+    @import '../components/reviews';
+    
+    // filter
+    @import '../components/filter';
+    @import '../components/orderSummary';
 }

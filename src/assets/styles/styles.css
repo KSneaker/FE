@@ -21,7 +21,7 @@ time, mark, audio, video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  vertical-align: baseline;
+  text-decoration: none !important;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -12119,6 +12119,12 @@ textarea.form-control-lg {
 #header .wrapper .user-list .sign {
   gap: 10px;
   color: #000;
+  display: flex;
+  justify-content: center;
+}
+#header .wrapper .user-list .active {
+  color: #fff;
+  background-color: #1677ff !important;
 }
 
 #main a {
@@ -12140,10 +12146,9 @@ textarea.form-control-lg {
 #main .product {
   display: flex;
   row-gap: 20px;
-  justify-content: space-around;
   flex-wrap: wrap;
 }
-#main .product .container {
+#main .product .container-product {
   padding: 10px;
   box-sizing: border-box;
 }
@@ -12161,66 +12166,6 @@ textarea.form-control-lg {
 #main .home-page .brand .see-all {
   font-size: 18px;
   background-color: #fff;
-}
-#main .wrapper-filter {
-  display: flex;
-}
-#main .wrapper-filter .filter {
-  position: sticky;
-  top: 63px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 1px 1px;
-}
-#main .wrapper-filter .filter .title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-#main .wrapper-filter .filter .title span {
-  color: #807D7E;
-  font-size: 22px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  letter-spacing: 0.44px;
-}
-#main .wrapper-filter .filter .filter-name {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  padding: 20px;
-}
-#main .wrapper-filter .filter .filter-name .brand {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  line-height: 200%;
-  color: #8A8989;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-}
-#main .wrapper-filter .filter .filter-price {
-  padding: 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#main .wrapper-filter .filter .filter-price input {
-  margin: 10px;
-  padding: 5px;
-  width: 20%;
-  outline: none;
-}
-#main .wrapper-filter .filter .filter-size {
-  padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
-#main .wrapper-filter .filter .filter-size .size {
-  padding: 10px 20px;
 }
 #main .product-detail-page .detail .product-img {
   row-gap: 10px;
@@ -12242,7 +12187,7 @@ textarea.form-control-lg {
   width: 100%;
 }
 #main .product-detail-page .detail .list .swiper-slide-thumb-active {
-  border: 1px solid #000;
+  border: 1px solid #1677ff;
 }
 #main .product-detail-page .detail .product-information {
   padding: 40px;
@@ -12275,7 +12220,7 @@ textarea.form-control-lg {
 }
 #main .product-detail-page .detail .product-information .product-price .old-price {
   font-size: 20px;
-  text-decoration: line-through;
+  text-decoration: line-through !important;
   font-weight: 300;
 }
 #main .product-detail-page .detail .product-information .product-size .size {
@@ -12297,9 +12242,10 @@ textarea.form-control-lg {
   display: flex;
   flex-direction: row;
   justify-items: center;
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
 #main .product-detail-page .detail .product-information .product-size .options {
+  align-items: center;
   width: 100%;
   margin: 20px 0px;
   display: flex;
@@ -12328,8 +12274,6 @@ textarea.form-control-lg {
   -moz-column-gap: 5px;
        column-gap: 5px;
   align-items: center;
-  background-color: #1677ff;
-  color: #fff;
   text-align: center;
 }
 #main .product-detail-page .detail .product-information .product-add-to-cart .price {
@@ -12351,8 +12295,164 @@ textarea.form-control-lg {
   flex-direction: row;
   align-items: center;
 }
-#main .description {
+#main .description-reviews {
   margin-top: 20px;
+}
+#main .description-reviews .comment {
+  padding: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+#main .description-reviews .comment .user-image img {
+  width: 70px;
+  height: 70px;
+  border-radius: 100%;
+}
+#main .description-reviews .comment .user-info .username {
+  font-size: 14px;
+  margin-right: 10px;
+  color: #807D7E;
+}
+#main .description-reviews .comment .user-comment {
+  margin-top: 5px;
+  font-size: 16px;
+}
+#main .description-reviews .comment .comment-time {
+  font-size: 12px;
+  color: #807D7E;
+}
+#main .filter {
+  position: sticky;
+  top: 63px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 1px 1px;
+  border-radius: 12px;
+}
+#main .filter .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+#main .filter .title span {
+  color: #807D7E;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.44px;
+}
+#main .filter .filter-name {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 20px;
+}
+#main .filter .filter-name .brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 200%;
+  color: #8A8989;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+}
+#main .filter .filter-price {
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#main .filter .filter-price input {
+  margin: 10px;
+  padding: 5px;
+  width: 20%;
+  outline: none;
+}
+#main .filter .filter-size {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+#main .filter .filter-size .size {
+  padding: 10px 20px;
+}
+#main .all-order-summary .order-summary {
+  display: flex;
+  padding: 10px 0px;
+  gap: 20px;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  align-items: center;
+}
+#main .all-order-summary .order-summary .rectangle {
+  height: 63px;
+  width: 63px;
+}
+#main .all-order-summary .order-summary .div {
+  flex: 1;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+#main .all-order-summary .order-summary .div .title {
+  max-width: 220px;
+  color: transparent;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.28px;
+  line-height: normal;
+  color: #3c4242;
+}
+#main .all-order-summary .order-summary .div .size-quantity {
+  color: transparent;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.28px;
+  line-height: normal;
+}
+#main .all-order-summary .order-summary .div .size-quantity .size {
+  margin: 0 20px 0 0;
+}
+#main .all-order-summary .order-summary .div .size-quantity .text {
+  color: #3c4242;
+  font-weight: 700;
+}
+#main .all-order-summary .order-summary .div .size-quantity .text-2 {
+  color: #807d7e;
+  font-weight: 500;
+}
+#main .all-order-summary .order-summary .text-wrapper {
+  color: #807d7e;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.28px;
+  line-height: normal;
+}
+#main .total .subtotal {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  align-items: center;
+}
+#main .total .subtotal .title {
+  max-width: 220px;
+  color: transparent;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.28px;
+  line-height: normal;
+  color: #3c4242;
+}
+#main .total .subtotal .text-wrapper {
+  color: #807d7e;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.28px;
+  line-height: normal;
 }
 
 #footer {
@@ -12423,12 +12523,32 @@ textarea.form-control-lg {
   align-items: center;
   border-radius: 8px;
   box-sizing: border-box;
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   background-color: #F6F6F6;
+  color: #000;
   padding: 12px;
   cursor: pointer;
   border: none;
+  min-width: 40px;
+}
+
+.btn-primary {
+  background-color: #1677ff;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #ff4d4f;
+  color: #fff;
+}
+
+.not-allowed {
+  cursor: not-allowed !important;
+  border-color: #d9d9d9;
+  color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.04);
+  box-shadow: none;
 }
 
 .background-image {
@@ -12463,6 +12583,65 @@ textarea.form-control-lg {
   border-block-start: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.filter {
+  position: sticky;
+  top: 63px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 1px 1px;
+  border-radius: 12px;
+}
+.filter .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+.filter .title span {
+  color: #807D7E;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.44px;
+}
+.filter .filter-name {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 20px;
+}
+.filter .filter-name .brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 200%;
+  color: #8A8989;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+}
+.filter .filter-price {
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.filter .filter-price input {
+  margin: 10px;
+  padding: 5px;
+  width: 20%;
+  outline: none;
+}
+.filter .filter-size {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+.filter .filter-size .size {
+  padding: 10px 20px;
+}
+
 .card-wrapper {
   position: relative;
   border-radius: 12px;
@@ -12478,9 +12657,7 @@ textarea.form-control-lg {
 .card-wrapper .card .image img {
   border-radius: 6px;
   width: 100%;
-  min-height: 400px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  min-height: 410px;
 }
 .card-wrapper .card .details {
   padding: 10px;
@@ -12504,4 +12681,9 @@ textarea.form-control-lg {
 .card-wrapper:hover {
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.12) 1px 1px 10px 1px;
+}
+
+.ant-table-thead tr .ant-table-cell {
+  background-color: #3c4242 !important;
+  color: #fff !important;
 }/*# sourceMappingURL=styles.css.map */

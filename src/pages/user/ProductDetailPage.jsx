@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postWishlist } from '../../redux/actions/actionsWishlist';
 import { postCart } from '../../redux/actions/actionsCart';
 import { openNotification } from '../../functions/Notification';
+import NotFound from './NotFound';
 const ProductDetailPage = () => {
     const param = useParams()
     const { data, isLoading } = useFetch(`${BASE_URL}/product/${param.id}`)
@@ -72,116 +73,118 @@ const ProductDetailPage = () => {
         }
     }
     const rating = dataComment?.reduce((total, item) => (total + item.rating), 0) / dataComment?.length
-    if (isLoading) {
-        return <Loading />
-    }
-    else return (
-        <div className="page-container">
-            <div className="wrapper">
-                <div className="product-detail-page">
-                    <div className="detail row">
-                        <div className="col-lg-6  col-sm-12" >
-                            <ListThumbs productID={dataDetail?.id} />
-                        </div>
-                        <div className="col-lg-6  col-sm-12" >
-                            <div className="product-information">
-                                <div>
-                                    <div className="product-name">
-                                        <span>{dataDetail?.title} </span>
+    return !data.length
+        ?
+        <NotFound />
+        : isLoading ?
+            <Loading />
+            :
+            <div className="page-container">
+                <div className="wrapper">
+                    <div className="product-detail-page">
+                        <div className="detail row">
+                            <div className="col-lg-6  col-sm-12" >
+                                <ListThumbs productID={dataDetail?.id} />
+                            </div>
+                            <div className="col-lg-6  col-sm-12" >
+                                <div className="product-information">
+                                    <div>
+                                        <div className="product-name">
+                                            <span>{dataDetail?.title} </span>
+                                        </div>
+                                        <div className="product-rate">
+                                            <span style={{ marginRight: 10, color: '#fadb14', fontSize: 18 }}>
+                                                {
+                                                    dataComment.length ?
+                                                        <>
+                                                            {rating}
+                                                            <Rate disabled allowHalf defaultValue={rating} />
+                                                        </>
+                                                        : <>
+                                                            Chưa có đánh giá
+                                                            <Rate disabled allowHalf defaultValue={0}></Rate>
+                                                        </>
+                                                }
+                                            </span>
+
+                                        </div>
                                     </div>
-                                    <div className="product-rate">
-                                        <span style={{ marginRight: 10, color: '#fadb14', fontSize: 18 }}>
-                                            {
-                                                dataComment.length ?
-                                                    <>
-                                                        {rating}
-                                                        <Rate disabled allowHalf defaultValue={rating} />
-                                                    </>
-                                                    : <>
-                                                        Chưa có đánh giá
-                                                        <Rate disabled allowHalf defaultValue={0}></Rate>
-                                                    </>
-                                            }
+                                    <Divider />
+                                    <div className="product-price">
+                                        <span className='actual-price text-price' >
+                                            {VND.format(dataDetail?.price - dataDetail?.price * dataDetail?.discount / 100)}
                                         </span>
-
-                                    </div>
-                                </div>
-                                <Divider />
-                                <div className="product-price">
-                                    <span className='actual-price text-price' >
-                                        {VND.format(dataDetail?.price - dataDetail?.price * dataDetail?.discount / 100)}
-                                    </span>
-                                    <span className='old-price text-price'>
-                                        {VND.format(dataDetail?.price)}
-                                    </span>
-                                    <span className='actual-price text-price' style={{ fontSize: 16 }}>
-                                        {`-${dataDetail?.discount}%`}
-                                    </span>
-                                </div>
-
-                                <div className="product-size">
-                                    <div className='size' >
-                                        <span className="text">Chọn size</span>
-                                        <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={700} centered >
-                                            <img style={{ width: '100%' }} src="https://www.soleracks.com/wp-content/uploads/2016/10/Nike-Shoes-Size-Chart-Conversion-unisex-men-women.png" alt="" />
-                                        </Modal>
-                                        <span className='text guide' onClick={showModal}>Hướng dẫn chọn size</span>
-
-                                        <i className="fa-solid fa-chevron-right fa-xs"></i>
-
-                                    </div>
-                                    <div className="options">
-                                        <ListSizes productID={dataDetail?.id} sizeActive={sizeActive} setSizeActive={setSizeActive} />
-                                    </div>
-                                </div>
-                                <div className="product-add-to-cart">
-                                    <Button className='button btn-add-to-cart btn-primary ' onClick={() => handleAddToWishlist(dataDetail)}>
-                                        <i className="fa-regular fa-heart"></i>
-                                        <span className='text' >
-                                            Thêm vào yêu thích
+                                        <span className='old-price text-price'>
+                                            {VND.format(dataDetail?.price)}
                                         </span>
-                                    </Button>
-                                    <Button className='button btn-add-to-cart btn-primary' onClick={() => handleAddToCart(dataDetail)}>
-                                        <i className="fa-solid fa-cart-shopping"></i>
-
-                                        <span className='text' >
-                                            Thêm vào giỏ hàng
+                                        <span className='actual-price text-price' style={{ fontSize: 16 }}>
+                                            {`-${dataDetail?.discount}%`}
                                         </span>
-                                    </Button>
-                                </div>
-                                <Divider />
-                                <div className="product-about">
-                                    <div className="about">
-                                        <Button className='button' disabled={true} style={{ color: '#000' }}>
-                                            <i className="fa-solid fa-credit-card  fa-md"></i>
-                                        </Button>
-                                        Thanh toán an toàn
-                                    </div>
-                                    <div className="about">
-                                        <Button className='button' disabled={true} style={{ color: '#000' }}>
-                                            <i className="fa-solid fa-truck  fa-md"></i>
-                                        </Button>
-                                        Giao hàng nhanh
                                     </div>
 
-                                    <div className="about">
-                                        <Button className='button' disabled={true} style={{ color: '#000' }}>
-                                            <i className="fa-solid fa-repeat  fa-md"></i>
+                                    <div className="product-size">
+                                        <div className='size' >
+                                            <span className="text">Chọn size</span>
+                                            <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={700} centered >
+                                                <img style={{ width: '100%' }} src="https://www.soleracks.com/wp-content/uploads/2016/10/Nike-Shoes-Size-Chart-Conversion-unisex-men-women.png" alt="" />
+                                            </Modal>
+                                            <span className='text guide' onClick={showModal}>Hướng dẫn chọn size</span>
+
+                                            <i className="fa-solid fa-chevron-right fa-xs"></i>
+
+                                        </div>
+                                        <div className="options">
+                                            <ListSizes productID={dataDetail?.id} sizeActive={sizeActive} setSizeActive={setSizeActive} />
+                                        </div>
+                                    </div>
+                                    <div className="product-add-to-cart">
+                                        <Button className='button btn-add-to-cart btn-primary ' onClick={() => handleAddToWishlist(dataDetail)}>
+                                            <i className="fa-regular fa-heart"></i>
+                                            <span className='text' >
+                                                Thêm vào yêu thích
+                                            </span>
                                         </Button>
-                                        Miễn phí vận chuyển & hoàn trả
+                                        <Button className='button btn-add-to-cart btn-primary' onClick={() => handleAddToCart(dataDetail)}>
+                                            <i className="fa-solid fa-cart-shopping"></i>
+
+                                            <span className='text' >
+                                                Thêm vào giỏ hàng
+                                            </span>
+                                        </Button>
+                                    </div>
+                                    <Divider />
+                                    <div className="product-about">
+                                        <div className="about">
+                                            <Button className='button' disabled={true} style={{ color: '#000' }}>
+                                                <i className="fa-solid fa-credit-card  fa-md"></i>
+                                            </Button>
+                                            Thanh toán an toàn
+                                        </div>
+                                        <div className="about">
+                                            <Button className='button' disabled={true} style={{ color: '#000' }}>
+                                                <i className="fa-solid fa-truck  fa-md"></i>
+                                            </Button>
+                                            Giao hàng nhanh
+                                        </div>
+
+                                        <div className="about">
+                                            <Button className='button' disabled={true} style={{ color: '#000' }}>
+                                                <i className="fa-solid fa-repeat  fa-md"></i>
+                                            </Button>
+                                            Miễn phí vận chuyển & hoàn trả
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div className="description-reviews">
+                        <TabDetail dataDetail={dataDetail} dataComment={dataComment} />
+                    </div>
                 </div>
-                <div className="description-reviews">
-                    <TabDetail dataDetail={dataDetail} dataComment={dataComment} />
-                </div>
-            </div>
 
-        </div >
-    );
+            </div >
+
 
 }
 

@@ -29,12 +29,12 @@ const ImageProductAdmin = () => {
     const allProducts = useSelector((state) => state.products.products?.allProducts)
     const user = useSelector((state) => state.auth.login?.currentUser)
     const { data: allImage, isLoading } = useFetch(`${BASE_URL}/product/image`)
-
     const modifiedAllImage = allImage?.map((item) => {
         return {
             ...item,
             list_thumb: JSON.parse(item.list_thumb).map((thumb) => {
                 return {
+                    ...thumb,
                     url: `${BASE_URL}/image/${thumb.thumbnail}`
                 }
             }),
@@ -104,8 +104,15 @@ const ImageProductAdmin = () => {
     const onChange = async ({ fileList: newFileList }) => {
         setFileList(newFileList);
     }
-    const onRemove = (e) => {
-        console.log(e)
+    const onRemove = async (e) => {
+        if (isEditting) {
+            // console.log(e.thumbnail)
+            await axios.delete(`${BASE_URL}/product/image/${e.thumbnail}`)
+            await axios.delete(`${BASE_URL}/image/${e.thumbnail}`)
+        }
+        else {
+            await axios.delete(`${BASE_URL}/image/${e.response}`)
+        }
     }
     const onClose = () => {
         setOpen(false);
@@ -136,7 +143,6 @@ const ImageProductAdmin = () => {
         });
         openNotification('Thêm thành công', 'success')
         setOpen(false)
-
     }
 
     return (

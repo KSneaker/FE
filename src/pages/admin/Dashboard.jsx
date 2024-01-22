@@ -12,9 +12,7 @@ import { Column, Pie } from '@ant-design/plots';
 import useFetch from '../../hooks/useFetch';
 import VND from '../../functions/VND';
 const Dashboard = () => {
-    const { Title, Text } = Typography;
-
-    const [form] = Form.useForm();
+    const { Title, } = Typography;
     const user = useSelector((state) => state.auth.login?.currentUser)
     const dispatch = useDispatch()
     const dollor = [
@@ -109,7 +107,6 @@ const Dashboard = () => {
         getAllProducts(user?.accessToken, dispatch)
     }, [])
     const allOrders = useSelector((state) => state.orders.orders?.allOrders?.data)
-    const allProducts = useSelector((state) => state.products.products?.allProducts)
     const allUsers = useSelector((state) => state.users.users?.allUsers?.data)
 
     const { data: dataColumn } = useFetch('http://localhost:8080/orders/chart/countOrder')
@@ -117,35 +114,34 @@ const Dashboard = () => {
     const { data: dataPie } = useFetch('http://localhost:8080/orders/chart/order')
     const { data: profit } = useFetch('http://localhost:8080/orders/chart/profit')
     const { data: allComments } = useFetch('http://localhost:8080/product/comments')
-    console.log(profit)
+    // console.log(profit)
 
     const count = [
         {
-            today: "Đơn hàng",
+            name: "Đơn hàng",
             title: allOrders?.length,
             icon: cart,
             bnb: "bnb2",
         },
         {
-            today: "Người dùng",
+            name: "Người dùng",
             title: allUsers?.length,
             icon: profile,
             bnb: "bnb2",
         },
         {
-            today: "Tổng thu",
+            name: "Tổng thu",
             title: VND.format(dataPie.reduce((total, item) => total + item.total, 0)),
             icon: dollor,
             bnb: "redtext",
         },
         {
-            today: "Đánh giá",
+            name: "Đánh giá",
             title: allComments?.length,
             icon: heart,
             bnb: "bnb2",
         },
     ];
-
     const configColumn = {
         data: dataColumn,
         xField: 'name',
@@ -246,7 +242,7 @@ const Dashboard = () => {
                             <div className="number">
                                 <Row align="middle" gutter={[24, 0]}>
                                     <Col xs={18}>
-                                        <span>{c.today}</span>
+                                        <span>{c.name}</span>
                                         <Title level={3}>
                                             {c.title} <small className={c.bnb}>{c.persent}</small>
                                         </Title>

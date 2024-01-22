@@ -5,6 +5,9 @@ const NavBar = () => {
             <NavLink className="nav-bar-item" to="/">
                 Trang chủ
             </NavLink>
+            <NavLink className="nav-bar-item" to="/allProducts" >
+                Toàn bộ sản phẩm
+            </NavLink>
             <NavLink className="nav-bar-item" to="/allProducts/nike">
                 Giày Nike
             </NavLink>
@@ -13,9 +16,6 @@ const NavBar = () => {
             </NavLink>
             <NavLink className="nav-bar-item" to="/allProducts/converse">
                 Giày Converse
-            </NavLink>
-            <NavLink className="nav-bar-item" to="/allProducts">
-                Toàn bộ sản phẩm
             </NavLink>
         </div>
     );

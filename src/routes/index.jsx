@@ -43,7 +43,7 @@ const SwitchRoute = () => {
             {/* user */}
             <Route path='/' element={<UserLayout />}>
                 <Route index element={<HomePage />}></Route>
-                <Route path='allProducts/' element={<ProductPage />}></Route>
+                <Route path='allProducts' element={<ProductPage />}></Route>
                 <Route path='allProducts/:slug' element={<ProductPage />}></Route>
                 <Route path='product/:id' element={<ProductDetailPage />}></Route>
                 <Route path="*" element={<NotFound />} />

@@ -66,12 +66,12 @@ const FilterSide = ({ searchParams, setSearchParams, slug }) => {
     ]
     const itemsBrand = [
         {
-            key: '2',
+            key: '',
             icon: <FilterOutlined />,
             label: 'Phân loại',
             children: [
                 {
-                    key: '21',
+                    key: '1',
                     label: <div className="brand" onClick={(e) => setSearchParams(prev => {
                         prev.set('category', 'sneaker')
                         return prev
@@ -82,12 +82,21 @@ const FilterSide = ({ searchParams, setSearchParams, slug }) => {
 
                 },
                 {
-                    key: '22',
+                    key: '2',
                     label: < div className="brand" onClick={(e) => setSearchParams(prev => {
                         prev.set('category', 'running')
                         return prev
                     })}>
                         <span>Running</span>
+                    </div >
+                },
+                {
+                    key: '3',
+                    label: < div className="brand" onClick={(e) => setSearchParams(prev => {
+                        prev.set('category', 'football')
+                        return prev
+                    })}>
+                        <span>Football</span>
                     </div >
                 }
             ]

@@ -1,7 +1,5 @@
 import { Tabs } from 'antd';
-import Comment from './tab/Comment';
-
-
+import Comment from './Comment';
 
 const TabDetail = ({ dataDetail, dataComment }) => {
     const items = [

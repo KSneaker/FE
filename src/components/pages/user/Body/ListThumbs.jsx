@@ -11,23 +11,18 @@ import 'swiper/css/thumbs';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import useFetch from '../../../../hooks/useFetch';
 import { BASE_URL } from '../../../../config';
-import { Spin } from 'antd';
+import Loading from '../../../UI/Loading';
 const ListThumbs = ({ productID }) => {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const { data, isLoading } = useFetch(`${BASE_URL}/thumb/${productID}`)
-    const newData = data.map((item) => {
+    const modifiedData = data.map((item) => {
         return {
             ...item,
             thumbnail: `${BASE_URL}/image/${item.thumbnail}`
         }
     })
-    console.log('newData', newData)
-    if (isLoading) {
-        return <div className="product-img row" style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Spin size='small'></Spin>
-        </div>
-    }
-    else return (
+    return isLoading ? <Loading />
+        :
         <div className="product-img row">
             <Swiper
                 spaceBetween={10}
@@ -38,7 +33,7 @@ const ListThumbs = ({ productID }) => {
                 className="thumbnail"
             >
                 {
-                    newData?.map((thumb, index) => {
+                    modifiedData?.map((thumb, index) => {
                         return (
                             <SwiperSlide key={index}>
                                 <img className='thumb' src={thumb.thumbnail} alt="" />
@@ -58,7 +53,7 @@ const ListThumbs = ({ productID }) => {
                 modules={[FreeMode, Navigation, Thumbs]}
             >
                 {
-                    newData?.map((thumb, index) => {
+                    modifiedData?.map((thumb, index) => {
                         return (
                             <SwiperSlide key={index}>
                                 <img className='list-thumb' src={thumb.thumbnail} alt="" />
@@ -68,7 +63,6 @@ const ListThumbs = ({ productID }) => {
                 }
             </Swiper>
         </div>
-    );
 
 }
 

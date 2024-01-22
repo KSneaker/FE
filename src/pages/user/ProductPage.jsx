@@ -9,33 +9,33 @@ const ProductPage = () => {
     const { slug } = useParams()
     const [searchParams, setSearchParams] = useSearchParams()
     const category = searchParams.get('category')
-    const brand = searchParams.get('brand')
     const { data, isLoading } = useFetch(`${BASE_URL}/allProducts/${slug ? slug : ''}`)
     const filterData = data.filter((item) => {
-        if (category && brand) {
-            return item.category == category && item.brand == brand
-        }
-        else if (category && brand == '' || category) {
+        if (category) {
             return item.category == category
-        }
-        else if (brand && category == '' || brand) {
-            return item.brand == brand
         }
         else {
             return item
         }
     })
     // console.log('filterData', filterData)
-    if (isLoading) {
-        return <Loading />
-    }
-    else return (
+    return isLoading
+        ?
+        <Loading />
+        :
         <div className="page-container">
             <div className="wrapper d-flex" >
                 <div className="col-xxl-3" >
                     <FilterSide slug={slug} searchParams={searchParams} setSearchParams={setSearchParams} />
                 </div>
                 <div className="col-xxl-9">
+                    <h1 style={{ padding: 10, fontSize: 20 }}>
+                        Toàn bộ sản phẩm <span style={{ textTransform: 'capitalize' }}>
+                            {slug}
+                        </span>
+                        {category && <> - {category}</>}
+                        : {filterData?.length}
+                    </h1>
                     <div className="product">
                         {filterData?.map((item, index) => {
                             // console.log(item)
@@ -48,7 +48,7 @@ const ProductPage = () => {
                 </div>
             </div>
         </div>
-    );
+
 }
 
 export default ProductPage;

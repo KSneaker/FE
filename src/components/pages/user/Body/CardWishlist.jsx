@@ -1,14 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Button from "../../../UI/Button";
 import VND from "../../../../functions/VND";
-import { useDispatch, useSelector } from "react-redux";
 import { removeWishlist } from "../../../../redux/actions/actionsWishlist";
 
 const CardWishlist = ({ data }) => {
     const user = useSelector((state) => state.auth.login.currentUser)
     const dispatch = useDispatch();
     const handleRemoveFromWishlist = async (wishlist_id) => {
-        console.log('remove')
+        // console.log('remove')
         removeWishlist(user?.accessToken, dispatch, wishlist_id)
     }
     return (

@@ -9,7 +9,6 @@ import { openNotification } from "../../../functions/Notification";
 import VND from "../../../functions/VND";
 
 const TableProduct = ({ openEdit }) => {
-
     const dispatch = useDispatch()
     const user = useSelector((state) => state.auth.login?.currentUser)
     const allProducts = useSelector((state) => state.products.products?.allProducts)
@@ -136,7 +135,6 @@ const TableProduct = ({ openEdit }) => {
 
         }
     ];
-
 
     return (
         <Table columns={columns} size="middle" pagination={{ pageSize: 5 }} dataSource={allProducts} bordered rowKey={'id'} />

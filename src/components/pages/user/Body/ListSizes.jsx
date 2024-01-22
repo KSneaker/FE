@@ -1,5 +1,4 @@
 
-import { useState } from 'react'
 import Button from '../../../UI/Button';
 import { BASE_URL } from '../../../../config';
 import useFetch from '../../../../hooks/useFetch';
@@ -27,13 +26,9 @@ const ListSizes = ({ productID, setSizeActive, sizeActive }) => {
                 })
             }
             {
-                sizeActive ?
-                    <>
-                        Số lượng có sẵn : {quantity.quantity}
-                    </>
-                    : null
-            }
+                sizeActive && <>Số lượng có sẵn : {quantity.quantity}</>
 
+            }
         </>
     );
 }

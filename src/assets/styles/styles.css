@@ -4111,16 +4111,18 @@ table {
   outline: none;
 }
 #header .wrapper .search-input .search-result {
-  min-width: 400px;
-  min-height: 200px;
+  max-width: 400px;
+  max-height: 400px;
   width: 500px;
-  height: 300px;
-  background-color: red;
+  background-color: white;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 0px 1px;
   position: absolute;
   top: 45px;
   right: 0;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 #header .wrapper .search-input .search-result::after {
   content: "";
@@ -4129,7 +4131,7 @@ table {
   right: calc(20% - 10px);
   border-width: 10px;
   border-style: solid;
-  border-color: transparent transparent red transparent;
+  border-color: transparent transparent white transparent;
 }
 #header .wrapper .user-list {
   display: flex;

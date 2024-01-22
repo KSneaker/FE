@@ -14,8 +14,6 @@ const TableBrand = ({ openEdit }) => {
         getAllBrands(user?.accessToken, dispatch)
     }, [])
     const allBrands = useSelector((state) => state.brands.brands?.allBrands?.data)
-
-
     const columns = [
         {
             title: 'ID',

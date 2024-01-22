@@ -96,7 +96,6 @@ const UserOrder = () => {
             key: 'order_date',
             dataIndex: 'order_date',
             align: 'center',
-
         },
         {
             title: <SettingOutlined />,
@@ -114,7 +113,6 @@ const UserOrder = () => {
                     </div>
                 )
             }
-
         },
     ];
 

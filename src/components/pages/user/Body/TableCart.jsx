@@ -17,7 +17,6 @@ const TableCart = ({ ...props }) => {
                     </div>
                 )
             }
-
         },
         {
             title: 'TÊN',
@@ -30,7 +29,6 @@ const TableCart = ({ ...props }) => {
                     </div>
                 )
             }
-
         },
         {
             title: 'KÍCH CỠ',
@@ -91,14 +89,11 @@ const TableCart = ({ ...props }) => {
                     </div>
                 )
             }
-
-
         },
     ];
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            // Call the callback function passed from the parent component
             console.log('selectedRows', selectedRows)
             const modifiedSelectedRows = selectedRows.map((item) => {
                 return {
@@ -115,18 +110,13 @@ const TableCart = ({ ...props }) => {
             rowSelection={{
                 type: "checkbox",
                 ...rowSelection,
-
             }}
             bordered
             columns={columns}
             dataSource={allCart}
-            // bordered
-
             pagination={false}
             rowKey={'id'}
         />
-
-
     );
 }
 

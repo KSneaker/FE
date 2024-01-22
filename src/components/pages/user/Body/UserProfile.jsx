@@ -25,7 +25,7 @@ const UserProfile = () => {
         }])
     }, [])
     const handleChange = async ({ fileList: newFileList }) => {
-        console.log(newFileList)
+        // console.log(newFileList)
         setFileList(newFileList);
     }
     const onFinish = async (e) => {
@@ -74,7 +74,6 @@ const UserProfile = () => {
                         >
                             <Input />
                         </Form.Item >
-
                         <Form.Item
                             labelCol={{ span: 4 }}
                             label="Ngày sinh"
@@ -83,7 +82,6 @@ const UserProfile = () => {
                         >
                             <DatePicker locale={vn} />
                         </Form.Item>
-
                         <Form.Item
                             labelCol={{ span: 4 }}
                             label="Giới tính"
@@ -96,7 +94,6 @@ const UserProfile = () => {
                                 <Radio value={'3'}>Khác</Radio>
                             </Radio.Group>
                         </Form.Item>
-
                         <Form.Item
                             wrapperCol={{ span: 15 }}
                             labelCol={{ span: 4 }}
@@ -106,7 +103,6 @@ const UserProfile = () => {
                         >
                             <Input />
                         </Form.Item>
-
                         <Form.Item
                             wrapperCol={{ span: 15 }}
                             labelCol={{ span: 4 }}
@@ -116,7 +112,6 @@ const UserProfile = () => {
                         >
                             <Input />
                         </Form.Item>
-
                         <Form.Item
                             wrapperCol={{ span: 15 }}
                             labelCol={{ span: 4 }}
@@ -126,10 +121,8 @@ const UserProfile = () => {
                         >
                             <Input />
                         </Form.Item>
-
                     </Col>
                     <Col span={8} style={{ textAlign: 'center', borderLeft: '1px solid rgba(0,0,0,0.12)' }} >
-
                         <Form.Item
                             name="avatar"
                             rules={[{
@@ -142,11 +135,6 @@ const UserProfile = () => {
                                 name="image"
                                 listType="picture-circle"
                                 maxCount={1}
-                                // onPreview={handlePreview}
-                                // beforeUpload={(file) => {
-                                //     // console.log(">>> file: ", file);
-                                //     return false;
-                                // }}
                                 fileList={fileList}
                                 onChange={handleChange}
                             >
@@ -156,20 +144,15 @@ const UserProfile = () => {
                                 </div>
                             </Upload>
                         </Form.Item>
-
                     </Col>
                 </Row>
-                <Form.Item
-                    wrapperCol={{ span: 2 }}
-                >
+                <Form.Item wrapperCol={{ span: 2 }} >
                     <Button style={{ width: '100%' }} type="primary" htmlType="submit" >
                         Lưu
                     </Button>
                 </Form.Item>
             </Form>
-
         </div>
-
     );
 }
 

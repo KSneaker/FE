@@ -1,17 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../UI/Button";
 import VND from "../../../../functions/VND";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllWishlist, postWishlist } from "../../../../redux/actions/actionsWishlist";
-import { Modal } from "antd";
+import { postWishlist } from "../../../../redux/actions/actionsWishlist";
 
 const CardShoe = ({ data, homepage }) => {
     const user = useSelector((state) => state.auth.login.currentUser)
     const dispatch = useDispatch();
     const navigate = useNavigate()
-
-
 
     const handleAddToWishlist = async (data) => {
         if (!user?.accessToken) {

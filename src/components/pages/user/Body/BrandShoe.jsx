@@ -1,8 +1,8 @@
 import Button from "../../../UI/Button";
 import { useNavigate, } from "react-router-dom";
 import CardShoe from "./CardShoe";
-import useFetch from "../../../../hooks/useFetch";
 import { BASE_URL } from "../../../../config";
+import useFetch from "../../../../hooks/useFetch";
 const BrandShoe = (props) => {
     let navigate = useNavigate();
     const routeChange = () => {

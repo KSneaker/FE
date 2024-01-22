@@ -1,29 +1,24 @@
-import { Input, Rate, Form } from "antd";
-import { dateFormat } from "../../../../../functions/dateFormat";
-import SubmitBtn from "../../../../Form/SubmitBtn";
-import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { Input, Rate, Form } from "antd";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { BASE_URL } from "../../../../../config";
+import { useState } from "react";
+import { dateFormat } from "../../../../functions/dateFormat";
+import SubmitBtn from "../../../Form/SubmitBtn";
+import { BASE_URL } from "../../../../config";
 
-const Comment = ({ dataComment, productID }) => {
-    // const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+const Comment = ({ dataComment }) => {
     const currentUser = useSelector((state) => state.auth.login?.user)
-    console.log(currentUser)
     const navigate = useNavigate()
     const modifiedComment = dataComment.map((item) => {
-        console.log(item)
         return ({
             ...item,
             created_at: dateFormat(item.created_at)
         })
     })
     const [comment, setComment] = useState(modifiedComment)
-    // console.log(comment)
-    // useEffect(() => {
+    const [form] = Form.useForm();
 
-    // }, [comment])
     const onFinish = (e) => {
         if (!currentUser) {
             navigate('/sign-in')
@@ -40,15 +35,12 @@ const Comment = ({ dataComment, productID }) => {
                 ]
             )
             form.resetFields()
-
         }
     }
-    const [form] = Form.useForm();
     return (
         <div className="row justify-content-between">
             <div className="col-xl-7">
                 <h5 style={{ padding: 10 }}>Tổng đánh giá</h5>
-
                 {
                     comment.map((item, index) => {
                         return (

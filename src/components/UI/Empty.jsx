@@ -31,6 +31,7 @@ const Empty = ({ type }) => {
                     case 'checkout': return <>
                         <h3>Đơn hàng của bạn đã được đặt thành công</h3>
                     </>;
+
                     default: return;
                 }
             })()}

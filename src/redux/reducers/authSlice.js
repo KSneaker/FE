@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+// const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+
 const authSlice = createSlice({
     name: "auth",
     initialState: {
         login: {
-            currentUser: currentUser ? currentUser : null,
+            // currentUser: currentUser ? currentUser : null,
+            currentUser: null,
+            user: null,
             isFetching: false,
             error: false,
             isLogin: false
@@ -29,6 +32,7 @@ const authSlice = createSlice({
             const { msg, ...other } = action.payload
             state.login.isFetching = false;
             state.login.currentUser = { ...other };
+            state.login.user = { ...other }.user;
             state.login.error = false;
             state.login.isLogin = true;
             state.msg = msg
@@ -58,7 +62,22 @@ const authSlice = createSlice({
         },
         logoutFailed: (state) => {
             state.logout.error = true
-        }
+        },
+        updateUserSuccess: (state, action) => {
+            console.log('payload', {
+                ...state.login.user,
+                ...action.payload.data
+            })
+            state.login.user = {
+                ...state.login.user,
+                ...action.payload.data
+            }
+            state.login.error = false;
+        },
+        updateUserFailed: (state) => {
+            // state.login.user = null
+            state.login.error = true;
+        },
     }
 })
 
@@ -71,7 +90,9 @@ export const {
     registerSuccess,
     registerFailed,
     logoutSuccess,
-    logoutFailed
+    logoutFailed,
+    updateUserSuccess,
+    updateUserFailed
 } = authSlice.actions;
 
 export default authSlice.reducer

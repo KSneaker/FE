@@ -1,6 +1,6 @@
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import Table from "antd/es/table";
 import { getAllOrders, updateOrder } from "../../redux/actions/actionsOrders";
@@ -10,9 +10,10 @@ import { Button, Col, Form, Image, Input, Modal, Row, Select, Space, Typography,
 import {
     SettingOutlined,
     EditOutlined,
-    PlusOutlined
+    FilePdfOutlined
 } from '@ant-design/icons'
 import { openNotification } from "../../functions/Notification";
+import { useReactToPrint } from "react-to-print";
 const { Option } = Select;
 const OrderAdmin = () => {
     const user = useSelector((state) => state.auth.login?.currentUser)
@@ -54,6 +55,7 @@ const OrderAdmin = () => {
         }
     })
     // console.log('modifiedAllOrders', modifiedAllOrders)
+
     const columns = [
         {
             title: 'ID',
@@ -104,8 +106,16 @@ const OrderAdmin = () => {
                     value: '3',
                 },
                 {
-                    text: 'Đã thanh toán',
+                    text: 'Đã giao hàng',
                     value: '4',
+                },
+                {
+                    text: 'Chờ thanh toán',
+                    value: '5',
+                },
+                {
+                    text: 'Đã thanh toán',
+                    value: '6',
                 },
             ],
             onFilter: (status, record) => record.status === status,
@@ -153,7 +163,7 @@ const OrderAdmin = () => {
 
     return (
         <div style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between align-items-center" style={{ marginBottom: 20 }}>
                 <p>Bảng đơn hàng</p>
 
             </div>
@@ -358,7 +368,6 @@ const OrderAdmin = () => {
                         )}
                     </Form.Item> */}
                 </Form >
-
             </Modal >
         </div>
     );

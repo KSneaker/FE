@@ -3,13 +3,14 @@ import {
     CloseOutlined, MinusCircleOutlined
     , PlusOutlined
 } from '@ant-design/icons';
-import { Button, Card, Col, Form, Input, Row, Space, Typography } from 'antd';
+import { Button, Card, Col, Form, Input, Row, Space, Table, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers } from '../../redux/actions/actionsUser';
 import { getAllOrders } from '../../redux/actions/actionsOrders';
 import { getAllProducts } from '../../redux/actions/actionsProduct';
-import { Column } from '@ant-design/plots';
+import { Column, Pie } from '@ant-design/plots';
 import useFetch from '../../hooks/useFetch';
+import VND from '../../functions/VND';
 const Dashboard = () => {
     const { Title, Text } = Typography;
 
@@ -110,6 +111,14 @@ const Dashboard = () => {
     const allOrders = useSelector((state) => state.orders.orders?.allOrders?.data)
     const allProducts = useSelector((state) => state.products.products?.allProducts)
     const allUsers = useSelector((state) => state.users.users?.allUsers?.data)
+
+    const { data: dataColumn } = useFetch('http://localhost:8080/orders/chart/countOrder')
+    // console.log('dataColumn', dataColumn)
+    const { data: dataPie } = useFetch('http://localhost:8080/orders/chart/order')
+    const { data: profit } = useFetch('http://localhost:8080/orders/chart/profit')
+    const { data: allComments } = useFetch('http://localhost:8080/product/comments')
+    console.log(profit)
+
     const count = [
         {
             today: "Đơn hàng",
@@ -125,51 +134,30 @@ const Dashboard = () => {
         },
         {
             today: "Tổng thu",
-            title: "+1,200",
+            title: VND.format(dataPie.reduce((total, item) => total + item.total, 0)),
             icon: dollor,
             bnb: "redtext",
         },
         {
             today: "Đánh giá",
-            title: "$13,200",
+            title: allComments?.length,
             icon: heart,
             bnb: "bnb2",
         },
     ];
 
-    const { data, isLoading } = useFetch('http://localhost:8080/chart')
-    console.log(data)
-    const modifiedData = data?.map((item) => {
-        console.log(item)
-    })
-    // const data = [
-    //     {
-    //         type: 'Nike',
-    //         sales: 38,
-    //     },
-    //     {
-    //         type: 'Adidas',
-    //         sales: 52,
-    //     },
-    //     {
-    //         type: 'Converse',
-    //         sales: 61,
-    //     },
-    // ];
-    const config = {
-        data,
+    const configColumn = {
+        data: dataColumn,
         xField: 'name',
-        yField: 'total',
+        yField: 'count',
         label: {
-            // 可手动配置 label 数据标签位置
             position: 'middle',
-            // 'top', 'bottom', 'middle',
-            // 配置样式
             style: {
                 fill: '#FFFFFF',
                 opacity: 0.6,
             },
         },
+        seriesField: 'name',
         xAxis: {
             label: {
                 autoHide: true,
@@ -180,11 +168,67 @@ const Dashboard = () => {
             name: {
                 alias: 'Thương hiêu',
             },
-            total: {
+            count: {
                 alias: 'Đã bán',
             },
         },
     };
+    const configPie = {
+        appendPadding: 10,
+        data: dataPie,
+        angleField: 'total',
+        colorField: 'name',
+        radius: 0.9,
+        label: {
+            type: 'inner',
+            offset: '-30%',
+            content: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
+            style: {
+                fontSize: 14,
+                textAlign: 'center',
+            },
+        },
+        interactions: [
+            {
+                type: 'element-active',
+            },
+        ],
+    }
+    const columns = [
+        {
+            title: 'Sản phẩm',
+            key: 'title',
+            dataIndex: 'title',
+            align: 'center',
+        },
+        {
+            title: 'Giá nhập',
+            key: 'import_price',
+            dataIndex: 'import_price',
+            align: 'center',
+            render: (price) => <>{VND.format(price)}</>
+        },
+        {
+            title: 'Đã bán',
+            key: 'total',
+            dataIndex: 'total_quantity',
+            align: 'center',
+        },
+        {
+            title: 'Tổng thu',
+            key: 'price',
+            dataIndex: 'total_sell',
+            align: 'center',
+            render: (price) => <>{VND.format(price)}</>
+        },
+        {
+            title: 'Lợi nhuận',
+            key: 'profit',
+            dataIndex: 'profit',
+            align: 'center',
+            render: (price) => <>{VND.format(price)}</>
+        },
+    ]
     return (
         <>
             <Row className="rowgap-vbox" gutter={[24, 0]}>
@@ -198,7 +242,7 @@ const Dashboard = () => {
                         xl={6}
                         className="mb-24"
                     >
-                        <Card bordered={false} className="criclebox ">
+                        <Card bordered={false}>
                             <div className="number">
                                 <Row align="middle" gutter={[24, 0]}>
                                     <Col xs={18}>
@@ -221,10 +265,27 @@ const Dashboard = () => {
                     </Col>
                 ))}
             </Row >
-            <Row gutter={[24]} style={{ marginTop: 10 }}>
+            <Row gutter={[24, 0]} style={{ marginTop: 10 }}>
                 <Col span={12}>
-                    <p>Tổng thu</p>
-                    <Column {...config} />;
+                    <Card bordered={false} >
+
+                        <h1 style={{ marginBottom: 20 }}>Tổng thu</h1>
+                        <Pie {...configPie} />
+                    </Card>
+                </Col>
+                <Col span={12} className='criclebox' >
+                    <Card bordered={false}>
+                        <h1 style={{ marginBottom: 20 }}>Số lượng bán</h1>
+                        <Column {...configColumn} />
+                    </Card>
+                </Col>
+            </Row>
+            <Row gutter={[24, 0]} style={{ marginTop: 10 }}>
+                <Col span={24} className='criclebox' >
+                    <Card bordered={false} >
+                        <h1 style={{ marginBottom: 20 }}>Thống kê doanh thu</h1>
+                        <Table bordered columns={columns} dataSource={profit} rowKey={'product_id'}></Table>
+                    </Card>
                 </Col>
             </Row>
         </>

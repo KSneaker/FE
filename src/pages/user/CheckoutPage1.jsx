@@ -7,26 +7,27 @@ import { Form, Radio, Input } from 'antd';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { BASE_URL } from '../../config';
-import Empty from '../../components/UI/Empty';
 import { openNotification } from '../../functions/Notification';
+import dayjs from 'dayjs';
 
 const CheckoutPage = () => {
     const user = useSelector((state) => state.auth.login.currentUser)
     const location = useLocation()
+    const navigate = useNavigate()
     const selectProducts = location.state.selectedRows;
-    const [isSuccess, setIsSuccess] = useState(false)
     const [discount, setDiscount] = useState({
         code: '',
         discount: 0,
-        name: ""
+        name: "",
+        product: ''
     })
     const [voucherValue, setVoucherValue] = useState('')
     const [paymentMethod, setPaymentMethod] = useState('cod');
     const [formInfo] = Form.useForm();
-    const subTotalMoney = selectProducts?.reduce((total, product) => total + product.price, 0)
-    const discountMoney = subTotalMoney * discount.discount / 100
+    const subTotalMoney = selectProducts?.reduce((total, product) => total + product.price * product.quantity, 0)
+    const listProductAddVoucher = selectProducts.filter((item) => discount.product?.includes(`${item.product_id}`))
+    const discountMoney = listProductAddVoucher.reduce((total, product) => total + product.price * product.quantity, 0) * discount.discount / 100
     const totalMoney = subTotalMoney - discountMoney
-    console.log(totalMoney)
     const handleInputChange = useCallback((event) => {
         setVoucherValue(event.target.value);
     }, [])
@@ -34,15 +35,22 @@ const CheckoutPage = () => {
         if (voucherValue) {
             const res = await axios.get(`${BASE_URL}/voucher/check-voucher/${voucherValue}`)
             if (res.data.valid) {
-                setDiscount({
-                    code: res.data.data.code,
-                    discount: res.data.data.discount,
-                    name: res.data.data.name
-                })
+                if (selectProducts.filter((item) => res.data.data.product?.includes(`${item.product_id}`)).length)
+                    setDiscount({
+                        code: res.data.data.code,
+                        discount: res.data.data.discount,
+                        name: res.data.data.name,
+                        product: res.data.data.product
+                    })
+
+                else {
+                    openNotification('Mã giảm giá không phù hợp', 'error')
+                }
             }
             else {
                 openNotification(res.data.message, 'error')
             }
+
         }
     }
     const handleRemoveVoucher = () => {
@@ -57,9 +65,16 @@ const CheckoutPage = () => {
         formInfo
             .validateFields()
             .then(async (values) => {
-                const body = { ...values, user_id: user.user.id, payment_method: paymentMethod, total_money: totalMoney };
+
                 if (paymentMethod === 'cod') {
                     try {
+                        const body = {
+                            ...values,
+                            user_id: user.user.id,
+                            payment_method: paymentMethod,
+                            total_money: totalMoney,
+                            order_code: `KS${dayjs().format('YYMMDDhhmmss')}`
+                        };
                         const res = await axios.post(`${BASE_URL}/orders`, body, {
                             headers: {
                                 token: `Bearer ${user.accessToken}`
@@ -67,11 +82,11 @@ const CheckoutPage = () => {
                         });
                         if (res.data.id) {
                             for (let i = 0; i < selectProducts.length; i++) {
-                                console.log(i, selectProducts[i])
+                                // console.log(i, selectProducts[i])
                                 const bodyDetail = {
                                     order_id: res.data.id,
                                     product_id: selectProducts[i].product_id,
-                                    price: selectProducts[i].price,
+                                    price: discount.product?.includes(`${selectProducts[i].product_id}`) ? selectProducts[i].price * (1 - discount.discount / 100) : selectProducts[i].price,
                                     quantity: selectProducts[i].quantity,
                                     size: selectProducts[i].size
                                 }
@@ -79,6 +94,8 @@ const CheckoutPage = () => {
                                     product_id: selectProducts[i].product_id,
                                     size: selectProducts[i].size
                                 }
+
+                                console.log('bodyDecreaseSize>>>>>', bodyDecreaseSize)
                                 // console.log(body)
                                 const res1 = await axios.post(`${BASE_URL}/orders/order-details`, bodyDetail, {
                                     headers: {
@@ -97,7 +114,8 @@ const CheckoutPage = () => {
                                 })
                             }
                         }
-                        setIsSuccess(true)
+
+                        navigate(`/payment?method=cod&order_code=${`KS${dayjs().format('YYMMDDhhmmss')}`}`)
 
                     }
                     catch (error) {
@@ -105,13 +123,61 @@ const CheckoutPage = () => {
                     }
                 }
                 else {
-                    const res = await axios.post('http://localhost:8080/payment/create_payment_url', {
+                    const order_code = `KS${dayjs().format('YYMMDDhhmmss')}`
+                    const body = {
+                        ...values,
+                        user_id: user.user.id,
+                        payment_method: paymentMethod,
+                        total_money: totalMoney,
+                        order_code: order_code,
+                        status: 5
+                    };
+                    const res = await axios.post(`${BASE_URL}/orders`, body, {
+                        headers: {
+                            token: `Bearer ${user.accessToken}`
+                        }
+                    });
+                    if (res.data.id) {
+                        for (let i = 0; i < selectProducts.length; i++) {
+                            // console.log(i, selectProducts[i])
+                            const bodyDetail = {
+                                order_id: res.data.id,
+                                product_id: selectProducts[i].product_id,
+                                price: discount.product?.includes(`${selectProducts[i].product_id}`) ? selectProducts[i].price * (1 - discount.discount / 100) : selectProducts[i].price,
+                                quantity: selectProducts[i].quantity,
+                                size: selectProducts[i].size
+                            }
+                            const bodyDecreaseSize = {
+                                product_id: selectProducts[i].product_id,
+                                size: selectProducts[i].size
+                            }
+
+                            console.log(body)
+                            const res1 = await axios.post(`${BASE_URL}/orders/order-details`, bodyDetail, {
+                                headers: {
+                                    token: `Bearer ${user.accessToken}`
+                                }
+                            });
+                            const res2 = await axios.delete(`${BASE_URL}/cart/${selectProducts[i].id}`, {
+                                headers: {
+                                    token: `Bearer ${user.accessToken}`
+                                }
+                            })
+                            const res3 = await axios.post(`${BASE_URL}/orders/decrease`, bodyDecreaseSize, {
+                                headers: {
+                                    token: `Bearer ${user.accessToken}`
+                                }
+                            })
+                        }
+                    }
+                    const res2 = await axios.post(`${BASE_URL}/payment/create_payment_url`, {
                         amount: totalMoney,
                         bankCode: '',
                         language: 'vn',
+                        order_code: order_code
                     })
-                    if (res.status === 200) {
-                        window.location = res.data
+                    if (res2.status === 200) {
+                        window.location = res2.data
                     }
                 }
             })
@@ -120,10 +186,7 @@ const CheckoutPage = () => {
             });
     };
 
-    return isSuccess ?
-
-        <Empty type={'checkout'} />
-        :
+    return (
         <div className="page-container">
             <div className="wrapper row" style={{ flexDirection: 'row-reverse', marginTop: 10 }}>
                 <div className="col-xxl-5 col-xl-6 col-md-6">
@@ -149,7 +212,7 @@ const CheckoutPage = () => {
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div className="text-wrapper">{VND.format(product.price)}</div>
+                                                <div className="text-wrapper">{VND.format(product.price * product.quantity)}</div>
 
                                             </div>
                                         )
@@ -167,50 +230,64 @@ const CheckoutPage = () => {
                                 </div>
 
                             </div>
-                            <div className="subtotal">
-                                {(!discount.code) ?
-                                    <>
-                                        <div className="">
-                                            <span className="title">Mã giảm giá: </span>
-                                            <input
-                                                type="text" value={voucherValue}
-                                                onChange={handleInputChange}
-                                                style={{
-                                                    outline: 'none',
-                                                    boxSizing: 'border-box',
-                                                    color: 'rgba(0, 0, 0, 0.88)',
-                                                    border: '1px solid #d9d9d9',
-                                                    borderRadius: 6,
-                                                    padding: '4px 11px'
-                                                }} />
-                                        </div>
-                                        <Button className='button' onClick={hanldleAddVoucher}>
-                                            Áp dụng
-                                        </Button>
-                                    </>
-                                    :
-                                    <>
-                                        <span className="title">
-                                            Mã giảm giá:
-                                            <span style={{ textTransform: 'uppercase' }}>
-                                                ({discount.code})
-                                            </span>
+                            {(!discount.code) ?
+                                <div className="subtotal">
+
+                                    <div className="">
+                                        <span className="title">Mã giảm giá: </span>
+                                        <input
+                                            type="text" value={voucherValue}
+                                            onChange={handleInputChange}
+                                            style={{
+                                                outline: 'none',
+                                                boxSizing: 'border-box',
+                                                color: 'rgba(0, 0, 0, 0.88)',
+                                                border: '1px solid #d9d9d9',
+                                                borderRadius: 6,
+                                                padding: '4px 11px'
+                                            }} />
+                                    </div>
+                                    <Button className='button' onClick={hanldleAddVoucher}>
+                                        Áp dụng
+                                    </Button>
+                                </div>
+                                :
+                                <div className="subtotal">
+                                    <span className="title">
+                                        Mã giảm giá:
+                                        <span style={{ textTransform: 'uppercase' }}>
+                                            ({discount.code})
                                         </span>
-                                        <Button className='button btn-danger' onClick={handleRemoveVoucher}>
-                                            X
-                                        </Button>
+                                    </span>
+                                    <div className="text-wrapper">
+                                        -{discount.discount}%
+                                    </div>
+                                    <Button className='button btn-danger' onClick={handleRemoveVoucher}>
+                                        X
+                                    </Button>
+                                    <div className="text-wrapper">
+                                        -{VND.format(discountMoney)}
+                                    </div>
+                                </div>
+                            }
 
-                                        <div className="text-wrapper">
-                                            -{discount.discount}%
-                                        </div>
-                                        <div className="text-wrapper">
-                                            -{VND.format(discountMoney)}
-                                        </div>
-                                    </>
+                            {(!discount.code) ?
+                                <></>
+                                :
+                                <div className="subtotal" style={{ alignItems: 'flex-start' }}>
+                                    <span className="title">
+                                        Sản phẩm áp dụng
+                                    </span>
+                                    <div >
+                                        {listProductAddVoucher?.map((item) => {
+                                            return (
+                                                <div> {item.title}</div>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            }
 
-                                }
-
-                            </div>
                             <div className="subtotal" style={{ border: 'none' }}>
                                 <span className="title">Tổng:</span>
                                 <div className="text-wrapper" >
@@ -238,6 +315,8 @@ const CheckoutPage = () => {
                 </div>
             </div>
         </div >
+    )
+
 
 
 }

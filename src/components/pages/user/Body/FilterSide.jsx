@@ -95,55 +95,11 @@ const FilterSide = ({ searchParams, setSearchParams, slug }) => {
         }
     ]
     return (
-        // <div className="filter">
-        //     <div className="">
-        //         <div className="title">
-        //             <span>Filter</span>
-        //             <i className="fa-solid fa-filter fa-md"></i>
-        //         </div>
-        //         <div className="filter-name">
-        //             <div className="brand">
-        //                 <span>Nike</span>
-        //                 <i className="fa-2xs fa-solid fa-chevron-right"></i>
-        //             </div>
-        //             <div className="brand">
-        //                 <span>Adidas</span>
-        //                 <i className="fa-2xs fa-solid fa-chevron-right"></i>
-        //             </div>
-        //             <div className="brand">
-        //                 <span>Converse</span>
-        //                 <i className="fa-2xs fa-solid fa-chevron-right"></i>
-        //             </div>
-        //             <div className="brand">
-        //                 <span>Vans</span>
-        //                 <i className="fa-2xs fa-solid fa-chevron-right"></i>
-        //             </div>
-        //         </div>
-        //     </div>
-
-        //     <div className="">
-        //         <div className="title">
-        //             <span>Size</span>
-        //             <i className=" fa-solid fa-chevron-down"></i>
-
-        //         </div>
-        //         <div className="filter-size">
-        //             <Button className="size button">38</Button>
-        //             <Button className="size button">39</Button>
-        //             <Button className="size button">40</Button>
-        //             <Button className="size button">41</Button>
-        //             <Button className="size button">42</Button>
-        //             <Button className="size button">43</Button>
-        //             <Button className="size button">44</Button>
-        //             <Button className="size button">45</Button>
-        //         </div>
-        //     </div>
-        // </div >
-        <div className="filter">
+        <div className="filter-side">
             <Menu
                 mode="inline"
                 items={(slug == 'allProducts') ? itemsAll : itemsBrand}
-
+                style={{ borderRadius: 6 }}
             />
             <div className="button btn-primary" onClick={() => setSearchParams()}><span style={{ fontSize: 12 }}>Clear Filter</span></div>
         </div>

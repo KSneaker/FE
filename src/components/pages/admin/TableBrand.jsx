@@ -23,9 +23,15 @@ const TableBrand = ({ openEdit }) => {
             dataIndex: 'id'
         },
         {
-            title: 'Name',
+            title: 'Tên',
             key: 'name',
             dataIndex: 'name'
+
+        },
+        {
+            title: 'Tiêu đề',
+            key: 'title',
+            dataIndex: 'title'
 
         },
         {

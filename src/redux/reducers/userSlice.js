@@ -19,14 +19,15 @@ const userSlice = createSlice({
         getUserFailed: (state) => {
             state.users.isFetching = false;
             state.users.error = true;
-        }
+        },
+
     }
 })
 
 export const {
     getUserStart,
     getUserSuccess,
-    getUserFailed
+    getUserFailed,
 } = userSlice.actions;
 
 export default userSlice.reducer

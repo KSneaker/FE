@@ -71,6 +71,7 @@
                     }
                 }
                 .swiper-slide-thumb-active {
+                    box-sizing: border-box;
                    border: 1px solid $primary_color;
                 }
             }
@@ -186,10 +187,22 @@
        
     }
 
+    .filter-side{
+        position: sticky;
+        top:62px;
+        border: 1px solid rgba(0, 0, 0, 0.12) ;
+        box-sizing: border-box;
+        border-radius: 8px;
+        .list-user{
+            padding: 15px;
+            color: #000;
+            i{
+                margin-right: 10px;
+            }
+        }
+    }
    
     @import '../components/reviews';
     
-    // filter
-    @import '../components/filter';
     @import '../components/orderSummary';
 }

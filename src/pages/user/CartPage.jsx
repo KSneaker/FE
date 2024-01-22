@@ -6,13 +6,16 @@ import { decreaseQuantity, getCart, increaseQuantity, removeCart } from '../../r
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/UI/Button';
+import { openNotification } from '../../functions/Notification';
+import axios from 'axios';
+import { BASE_URL } from '../../config';
 
 const CartPage = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [selectedRows, setSelectedRows] = useState([]);
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
-    console.log(selectedRows)
+    // console.log(selectedRows)
     const handleSelectionChange = (keys, rows) => {
         setSelectedRowKeys(keys);
         setSelectedRows(rows);
@@ -36,8 +39,19 @@ const CartPage = () => {
             removeCart(user?.accessToken, dispatch, cart.id)
         }
     }
-    const handleIncreaseQuantity = (cart) => {
-        increaseQuantity(user?.accessToken, dispatch, cart.id)
+    const handleIncreaseQuantity = async (cart) => {
+        // console.log(cart)
+        const res = await axios.post(`${BASE_URL}/cart/check-stock`, {
+            product_id: cart.product_id,
+            size: cart.size
+        })
+        if (cart.quantity < res.data.data[0].quantity) {
+            increaseQuantity(user?.accessToken, dispatch, cart.id)
+        }
+        else {
+            openNotification('Bạn không thể thêm quá số lượng có sẵn', 'error')
+        }
+
     }
     const handleRemoveCart = (cart) => {
         removeCart(user?.accessToken, dispatch, cart.id)

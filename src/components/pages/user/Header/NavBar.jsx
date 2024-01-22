@@ -14,8 +14,8 @@ const NavBar = () => {
             <NavLink className="nav-bar-item" to="/allProducts/converse">
                 Giày Converse
             </NavLink>
-            <NavLink className="nav-bar-item" to="/">
-                Về chúng tôi
+            <NavLink className="nav-bar-item" to="/allProducts">
+                Toàn bộ sản phẩm
             </NavLink>
         </div>
     );

@@ -1,4 +1,4 @@
-import { Routes, Route, } from 'react-router-dom'
+import { Routes, Route, Navigate, } from 'react-router-dom'
 import HomePage from '../pages/user/HomePage';
 import ProductPage from '../pages/user/ProductPage';
 import SignInPage from '../pages/user/SignIn';
@@ -9,23 +9,25 @@ import Dashboard from '../pages/admin/Dashboard';
 import CartPage from '../pages/user/CartPage';
 import User from "../pages/admin/UserAdmin";
 import ProductAdmin from '../pages/admin/ProductAdmin';
-import AdminLayout from '../components/layout/admin/index';
 import UserLayout from '../components/layout/user/index'
 import NotFound from '../pages/user/NotFound';
 import LoginLayout from '../components/layout/login';
 import BrandAdmin from '../pages/admin/BrandAdmin';
 import WishlistPage from '../pages/user/WishlistPage';
 import ProtectedRoute from './ProtectedRoute';
-import CheckoutPage from '../pages/user/CheckoutPage';
+import CheckoutPage from '../pages/user/CheckoutPage1';
 import OrderAdmin from '../pages/admin/OrderAdmin';
 import VoucherAdmin from '../pages/admin/VoucherAdmin';
 import PaymentResult from '../pages/user/PaymentResult';
 import AdminProtectedRoute from './AdminProtectedRoute';
+import UserPage from '../pages/user/UserPage';
+import UserProfile from '../components/pages/user/Body/UserProfile';
+import UserOrder from '../components/pages/user/Body/UserOrder';
+import ImageProductAdmin from '../pages/admin/ImageProductAdmin';
 
 
 const SwitchRoute = () => {
     return (
-
         <Routes>
             {/* admin */}
             <Route path='/admin' element={<AdminProtectedRoute />}>
@@ -33,6 +35,7 @@ const SwitchRoute = () => {
                 <Route path='user-manager' element={<User />}></Route>
                 <Route path='brand-manager' element={<BrandAdmin />}></Route>
                 <Route path='product-manager' element={<ProductAdmin />}></Route>
+                <Route path='image-product-manager' element={<ImageProductAdmin />}></Route>
                 <Route path='orders-manager' element={<OrderAdmin />}></Route>
                 <Route path='voucher-manager' element={<VoucherAdmin />}></Route>
             </Route>
@@ -54,6 +57,10 @@ const SwitchRoute = () => {
 
             <Route path='/' element={<ProtectedRoute />}>
                 <Route path='wishlist' element={<WishlistPage />}></Route>
+                <Route path='user' element={<UserPage />}>
+                    <Route index element={<UserProfile />}></Route>
+                    <Route path='order' element={<UserOrder />}></Route>
+                </Route>
                 <Route path='cart' element={<CartPage />}></Route>
                 <Route path='checkout' element={<CheckoutPage />}></Route>
 

@@ -11,6 +11,7 @@ import { getAllBrands } from "../../redux/actions/actionsBrand";
 import { getAllProducts, postProduct, updateProduct } from "../../redux/actions/actionsProduct";
 import useFetch from '../../hooks/useFetch';
 import { BASE_URL } from '../../config';
+import dayjs from 'dayjs';
 
 const { Option } = Select;
 
@@ -75,20 +76,21 @@ const ProductAdmin = () => {
     }
     const onFinish = async (e) => {
         if (!isEditting) {
-            const imgRef = ref(storageFirebase, `images/thumbnail/${e.thumbnail.fileList[0].name}`);
+            const imgRef = ref(storageFirebase, `images/thumbnail/${e.thumbnail.fileList[0].name + dayjs().format('YYYYMMDDHHmmss')} `);
             await uploadBytes(imgRef, e.thumbnail.fileList[0].originFileObj)
             const url = await getDownloadURL(imgRef)
             const body = await { ...e, thumbnail: url };
-            await postProduct(user.accessToken, dispatch, body)
+            // console.log(body)
+            postProduct(user.accessToken, dispatch, body)
             openNotification('Thêm thành công', 'success')
             setOpen(false)
             setIsChangeImg(false)
         } else {
             if (isChangeImg) {
-                const imgRef = ref(storageFirebase, `images/thumbnail/${e.thumbnail.fileList[0].name}`);
+                const imgRef = ref(storageFirebase, `images / thumbnail / ${e.thumbnail.fileList[0].name + dayjs().format('YYYYMMDDHHmmss')} `);
                 await uploadBytes(imgRef, e.thumbnail.fileList[0].originFileObj)
                 const url = await getDownloadURL(imgRef)
-                // console.log('url', url)
+                console.log('url', url)
                 const body = await { ...e, thumbnail: url };
                 await updateProduct(user.accessToken, dispatch, body)
                 openNotification('Sửa thành công', 'success')
@@ -106,10 +108,10 @@ const ProductAdmin = () => {
 
     return (
         <>
-            <div style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, marginBottom: 10 }}>
-                <div className="d-flex justify-content-between">
+            <div style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
+                <div className="d-flex justify-content-between align-items-center" style={{ marginBottom: 20 }}>
                     <p> Bảng sản phẩm </p>
-                    <Button type="primary" style={{ marginBottom: 20 }} onClick={handleAdd} icon={<PlusOutlined />}>
+                    <Button type="primary" onClick={handleAdd} icon={<PlusOutlined />}>
                         Thêm sản phẩm mới
                     </Button>
                 </div>
@@ -185,10 +187,21 @@ const ProductAdmin = () => {
                                     </Select>
                                 </Form.Item>
                             </Col>
-                            <Col span={12}>
+                            <Col span={6}>
+                                <Form.Item
+                                    name="import_price"
+                                    label="Giá nhập (đ)"
+                                    rules={[{ required: true, message: 'Vui lòng nhập giá nhập vào' }]}
+                                >
+                                    <Input
+                                        placeholder="VD: 123456"
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col span={6}>
                                 <Form.Item
                                     name="price"
-                                    label="Giá (đ)"
+                                    label="Giá bán (đ)"
                                     rules={[{ required: true, message: 'Vui lòng nhập giá bán' }]}
                                 >
                                     <Input
@@ -357,15 +370,6 @@ const ProductAdmin = () => {
                     </Form>
 
                 </Modal >
-            </div >
-            <div style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
-                <div className="d-flex justify-content-between">
-                    <p> Bảng ảnh sản phẩm </p>
-                    <Button type="primary" style={{ marginBottom: 20 }} icon={<PlusOutlined />}>
-                        Thêm ảnh mới
-                    </Button>
-                </div>
-
             </div >
         </>
 

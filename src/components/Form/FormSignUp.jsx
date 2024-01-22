@@ -1,9 +1,10 @@
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../../redux/actions/actionsAuth";
 import { Form, Input } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons'
+import { registerUser } from "../../redux/actions/actionsAuth";
 import SubmitBtn from "./SubmitBtn";
+
 const FormSignUp = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -25,13 +26,13 @@ const FormSignUp = () => {
                 <Form.Item
                     name="username"
                     rules={[
-                        { required: true, message: 'Vui lòng nhập tên đăng nhập!' }
+                        { required: true, message: 'Vui lòng nhập tên đăng ký!' }
                         , ({ getFieldValue }) => ({
                             validator(_, value) {
                                 if (getFieldValue('username')?.indexOf(' ') === -1) {
                                     return Promise.resolve();
                                 }
-                                return Promise.reject(new Error('Tên đăng nhập không được chứa khoảng trắng!'));
+                                return Promise.reject(new Error('Tên đăng ký không được chứa khoảng trắng!'));
                             },
                         }),
                     ]}
@@ -91,7 +92,7 @@ const FormSignUp = () => {
                 </Form.Item>
 
                 <Form.Item >
-                    <SubmitBtn form={form} />
+                    <SubmitBtn form={form} text={'Đăng ký'} />
                 </Form.Item>
                 <Form.Item>
                     Bạn đã có tài khoản KSneaker? <Link to='/sign-in'>Đăng nhập</Link>

@@ -52,7 +52,7 @@ const TableCart = ({ ...props }) => {
             width: 200,
             render: (price, record) => {
                 return (
-                    <>{VND.format(price * record.discount / 100)}</>
+                    <>{VND.format(price * (1 - record.discount / 100))}</>
                 )
             }
         },
@@ -74,7 +74,7 @@ const TableCart = ({ ...props }) => {
             width: 200,
             render: (price, record) => {
                 return (
-                    <>{VND.format(price * record.quantity * record.discount / 100)}</>
+                    <>{VND.format(price * record.quantity * (1 - record.discount / 100))}</>
                 )
             }
         },

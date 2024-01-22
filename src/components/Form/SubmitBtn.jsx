@@ -1,7 +1,7 @@
 import { Button, Form } from "antd";
 import { useState, useEffect } from "react";
 
-const SubmitBtn = ({ form }) => {
+const SubmitBtn = ({ form, text }) => {
     const [submittable, setSubmittable] = useState(false);
     const values = Form.useWatch([], form);
 
@@ -18,7 +18,7 @@ const SubmitBtn = ({ form }) => {
 
     return (
         <Button style={{ width: '100%' }} type="primary" htmlType="submit" disabled={!submittable}>
-            Submit
+            {text}
         </Button>
     );
 };

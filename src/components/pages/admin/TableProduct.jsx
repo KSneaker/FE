@@ -13,7 +13,6 @@ const TableProduct = ({ openEdit }) => {
     const dispatch = useDispatch()
     const user = useSelector((state) => state.auth.login?.currentUser)
     const allProducts = useSelector((state) => state.products.products?.allProducts)
-
     const handleDelete = (product) => {
         deleteProduct(user?.accessToken, dispatch, product.id, openNotification)
     }
@@ -81,7 +80,7 @@ const TableProduct = ({ openEdit }) => {
             render: (sizes) => {
                 return (<List  >
                     {
-                        sizes.map((item, index) =>
+                        sizes?.map((item, index) =>
                             <List.Item key={index}>
                                 Kích cỡ: <Tag >{item.size}</Tag>
                                 Số lượng: <Tag >{item.quantity}</Tag>
@@ -123,7 +122,7 @@ const TableProduct = ({ openEdit }) => {
                         >
                             <EditOutlined />
                         </Button>
-                        <Popconfirm title="Sure to delete?"
+                        <Popconfirm title="Bạn có muốn xóa?"
                             onConfirm={() => handleDelete(product)}
                         >
                             <Button type="primary" size={'large'} danger style={{ display: 'flex', alignItems: 'center' }} >

@@ -10,6 +10,7 @@ const HomePage = () => {
         getAllBrands(user?.accessToken, dispatch)
     }, [])
     const allBrands = useSelector((state) => state.brands.brands?.allBrands?.data)
+    console.log(allBrands)
     return (
         <>
             <Banner />

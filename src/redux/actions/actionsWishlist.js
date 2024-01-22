@@ -34,6 +34,7 @@ export const postWishlist = async (accessToken, dispatch, body) => {
                         token: `Bearer ${accessToken}`
                     }
                 })
+                // console.log(res.data)
                 dispatch(postWishlistSuccess({ ...body, id: res.data.id }))
                 openNotification('Thêm vào danh sách yêu thích thành công ', 'success')
 
@@ -56,6 +57,7 @@ export const removeWishlist = async (accessToken, dispatch, wishlistID) => {
             }
         })
         dispatch(removeWishlistSuccess(wishlistID))
+        openNotification("Xóa khỏi danh sách yêu thích thành công", 'success')
     } catch (error) {
         dispatch(removeWishlistFailed())
     }

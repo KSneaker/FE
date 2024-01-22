@@ -1,10 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-import {
-    Row,
-    Col,
-} from "antd";
-import { Link, NavLink } from "react-router-dom";
+import { Row, Col } from "antd";
+import { NavLink } from "react-router-dom";
 
 const Header = ({ name }) => {
     let content;

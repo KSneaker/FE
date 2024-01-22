@@ -45,9 +45,9 @@ const BrandAdmin = () => {
     }
     return (
         <div style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between align-items-center" style={{ marginBottom: 20 }}>
                 <p>Bảng thương hiệu</p>
-                <Button type="primary" style={{ marginBottom: 20 }} onClick={handleAdd} icon={<PlusOutlined />}>
+                <Button type="primary" onClick={handleAdd} icon={<PlusOutlined />}>
                     Add brand
                 </Button>
             </div>
@@ -81,12 +81,25 @@ const BrandAdmin = () => {
                         <Col span={24}>
                             <Form.Item
                                 name="name"
-                                label="Name"
+                                label="Tên"
                                 rules={[{
-                                    required: true, message: 'Please enter name'
+                                    required: true, message: 'Vui lòng nhập'
                                 }]}
                             >
-                                <Input placeholder="Please enter name" />
+                                <Input placeholder="VD: nike" />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={24}>
+                            <Form.Item
+                                name="title"
+                                label="Tiêu đề"
+                                rules={[{
+                                    required: true, message: 'Vui lòng nhập'
+                                }]}
+                            >
+                                <Input placeholder="VD: Nike" />
                             </Form.Item>
                         </Col>
                     </Row>

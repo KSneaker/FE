@@ -28,14 +28,20 @@ export const postCart = async (accessToken, dispatch, body) => {
             token: `Bearer ${accessToken}`
         }
     })
+    const res2 = await axios.post(`${BASE_URL}/cart/check-stock`, body)
     if (res.data.data?.length > 0) {
-        const cartID = res.data.data[0].id
-        await axios.post(`${BASE_URL}/cart/increase`, { cartID }, {
-            headers: {
-                token: `Bearer ${accessToken}`
-            }
-        })
-        openNotification('Thêm số lượng vào giỏ hàng thành công ', 'success')
+        if (res.data.data[0].quantity < res2.data.data[0].quantity) {
+            const cartID = res.data.data[0].id
+            await axios.post(`${BASE_URL}/cart/increase`, { cartID }, {
+                headers: {
+                    token: `Bearer ${accessToken}`
+                }
+            })
+            openNotification('Thêm số lượng vào giỏ hàng thành công ', 'success')
+        }
+        else {
+            openNotification('Bạn không thể thêm quá số lượng có sẵn ', 'error')
+        }
     }
     else {
         try {

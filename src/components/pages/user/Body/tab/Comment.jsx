@@ -4,11 +4,16 @@ import SubmitBtn from "../../../../Form/SubmitBtn";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { BASE_URL } from "../../../../../config";
 
 const Comment = ({ dataComment, productID }) => {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    // const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    const currentUser = useSelector((state) => state.auth.login?.user)
+    console.log(currentUser)
     const navigate = useNavigate()
     const modifiedComment = dataComment.map((item) => {
+        console.log(item)
         return ({
             ...item,
             created_at: dateFormat(item.created_at)
@@ -25,7 +30,8 @@ const Comment = ({ dataComment, productID }) => {
         } else {
             const body = {
                 ...e,
-                fullname: currentUser.user.fullname,
+                avatar: currentUser.avatar,
+                fullname: currentUser.fullname,
                 created_at: moment().format('DD-MM-YYYY HH:mm:ss')
             }
             setComment(
@@ -33,6 +39,7 @@ const Comment = ({ dataComment, productID }) => {
                     body
                 ]
             )
+            form.resetFields()
 
         }
     }
@@ -47,7 +54,7 @@ const Comment = ({ dataComment, productID }) => {
                         return (
                             <div className="row comment" key={index}>
                                 <div className="col-xl-2 text-center user-image" >
-                                    <img src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/b7d9211c-26e7-431a-ac24-b0540fb3c00f/air-force-1-07-shoes-WrLlWX.png" alt="" />
+                                    <img src={`${BASE_URL}/image/${item.avatar}`} alt="" />
                                 </div>
                                 <div className="col-xl-7">
                                     <div className="user-info">
@@ -82,7 +89,7 @@ const Comment = ({ dataComment, productID }) => {
                     <Form.Item
                         label="Bình luận"
                         name="comment"
-                        rules={[{ required: true, message: 'Vui lòng nhập họ tên!' }]}
+                        rules={[{ required: true, message: 'Vui lòng nhập bình luận!' }]}
                     >
                         <Input.TextArea />
                     </Form.Item>
@@ -92,7 +99,7 @@ const Comment = ({ dataComment, productID }) => {
                         <Rate allowHalf initialValues={0} />
                     </Form.Item>
                     <Form.Item>
-                        <SubmitBtn form={form} />
+                        <SubmitBtn form={form} text={'Gửi'} />
                     </Form.Item>
                 </Form>
             </div>

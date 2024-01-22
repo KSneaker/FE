@@ -3,23 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react'
 import { getAllVouchers, postVoucher, updateVoucher } from "../../redux/actions/actionsVoucher";
 import {
-    PlusOutlined, SettingOutlined, EditOutlined
+    PlusOutlined, SettingOutlined, EditOutlined, DeleteOutlined
 } from '@ant-design/icons';
-import { Button, Col, Form, Input, Modal, Row, notification, Table, Select, InputNumber } from "antd";
+import { Button, Col, Form, Input, Modal, Row, notification, Table, Select, InputNumber, DatePicker, Popconfirm, } from "antd";
 import { openNotification } from "../../functions/Notification";
 import { dateFormat, reverseDate } from "../../functions/dateFormat";
+import { getAllProducts } from "../../redux/actions/actionsProduct";
+import dayjs from "dayjs";
+import vn from 'antd/locale/vi_VN'
 
-import moment from "moment";
-import { getAllBrands } from "../../redux/actions/actionsBrand";
-
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
-// import dayjs from 'dayjs';
 const VoucherAdmin = () => {
-    // console.log(moment().format('YYMMDDHHmmss'))
-
-
     const user = useSelector((state) => state.auth.login?.currentUser)
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm();
@@ -27,10 +20,10 @@ const VoucherAdmin = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         getAllVouchers(user?.accessToken, dispatch)
-        getAllBrands(user?.accessToken, dispatch)
+        getAllProducts(user?.accessToken, dispatch)
     }, [])
+    const allProducts = useSelector((state) => state.products.products?.allProducts)
     const allVouchers = useSelector((state) => state.voucher.vouchers?.allVouchers?.data)
-    const allBrands = useSelector((state) => state.brands.brands?.allBrands?.data)
     const onClose = () => {
         setOpen(false);
     }
@@ -43,29 +36,37 @@ const VoucherAdmin = () => {
     const openEdit = (record) => {
         setOpen(true)
         setIsEditting(true)
-        form.setFieldsValue(record);
+        form.setFieldsValue({
+            ...record,
+            created_at: dayjs(`${record.created_at}`, 'DD-MM-YYYY'),
+            expiration_date: dayjs(`${record.expiration_date}`, 'DD-MM-YYYY'),
+        });
     }
+    const filterOption = (input, option) =>
+        (option?.title ?? '').toLowerCase().includes(input.toLowerCase());
 
     const onFinish = async (e) => {
         if (!isEditting) {
             const body = {
                 ...e,
-                expiration_date: moment(reverseDate(e.expiration_date)).format('YYYY-MM-DD HH:mm:ss'),
-                created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
-                brand: `${e.brand}`,
+                expiration_date: dayjs(`${e.expiration_date}`).format('YYYY-MM-DD HH:mm:ss'),
+                created_at: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                product: `${e.product}`,
                 // name: dataEdit
             }
             await postVoucher(user.accessToken, dispatch, body)
             openNotification('Thêm thành công', 'success')
             setOpen(false)
+
         }
         else {
             const body = {
                 ...e,
-                expiration_date: moment(reverseDate(e.expiration_date)).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-                created_at: reverseDate(e.created_at),
-                brand: `${e.brand}`
+                expiration_date: dayjs(e.expiration_date).format('YYYY-MM-DD HH:mm:ss'),
+                created_at: dayjs(e.created_at).format('YYYY-MM-DD HH:mm:ss'),
+                product: `${e.product}`
             }
+            // console.log(body)
             await updateVoucher(user.accessToken, dispatch, body)
             openNotification('Sửa thành công', 'success')
             setOpen(false)
@@ -77,7 +78,7 @@ const VoucherAdmin = () => {
             ...voucher,
             expiration_date: dateFormat(voucher.expiration_date),
             created_at: dateFormat(voucher.created_at),
-            brand: voucher.brand?.split(',').map(Number)
+            product: voucher.product?.split(',').map(Number)
         }
     })
 
@@ -129,6 +130,13 @@ const VoucherAdmin = () => {
                         >
                             <EditOutlined />
                         </Button>
+                        <Popconfirm title="Sure to delete?"
+                            onConfirm={() => { }}
+                        >
+                            <Button type="primary" size={'large'} danger style={{ display: 'flex', alignItems: 'center' }} >
+                                <DeleteOutlined />
+                            </Button>
+                        </Popconfirm>
                     </div>
                 )
             }
@@ -143,9 +151,9 @@ const VoucherAdmin = () => {
     };
     return (
         <div style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between align-items-center" style={{ marginBottom: 20 }}>
                 <p>Bảng Mã giảm giá</p>
-                <Button type="primary" style={{ marginBottom: 20 }} onClick={handleAdd} icon={<PlusOutlined />}>
+                <Button type="primary" onClick={handleAdd} icon={<PlusOutlined />}>
                     Thêm mã giảm giá
                 </Button>
             </div>
@@ -231,7 +239,7 @@ const VoucherAdmin = () => {
                                         required: true, message: ''
                                     }]}
                                 >
-                                    <Input placeholder="VD: 30/1/2024" readOnly />
+                                    <DatePicker disabled />
                                 </Form.Item>
                             </Col>
                         </Row> : null
@@ -245,12 +253,12 @@ const VoucherAdmin = () => {
                                     required: true, message: 'Vui lòng nhập ngày hết hạn'
                                 }]}
                             >
-                                <Input placeholder="VD: 30/1/2024" />
-
+                                {/* <Input placeholder="VD: 30-1-2024" /> */}
+                                <DatePicker locale={vn} />
                             </Form.Item>
                         </Col>
                     </Row>
-                    <Row gutter={16}>
+                    {/* <Row gutter={16}>
                         <Col span={24}>
                             <Form.Item
                                 name="brand"
@@ -264,7 +272,30 @@ const VoucherAdmin = () => {
                                     allowClear
                                     fieldNames={{ label: 'title', value: 'id' }}
                                     placeholder="Chọn thương hiệu"
+                                    filterOption={filterOption}
                                     options={allBrands}
+                                />
+                            </Form.Item>
+
+                        </Col>
+                    </Row> */}
+                    <Row gutter={16}>
+                        <Col span={24}>
+                            <Form.Item
+                                name="product"
+                                label="Sản phẩm"
+                                rules={[{
+                                    required: true, message: 'Vui lòng chọn các sản phẩm'
+                                }]}
+                            >
+                                <Select
+                                    mode="multiple"
+                                    allowClear
+                                    fieldNames={{ label: 'title', value: 'id' }}
+                                    placeholder="Chọn sản phẩm"
+                                    options={allProducts}
+                                    filterOption={filterOption}
+                                // virtual={false}
                                 />
                             </Form.Item>
 

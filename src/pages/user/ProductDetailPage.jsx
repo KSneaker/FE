@@ -20,11 +20,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postWishlist } from '../../redux/actions/actionsWishlist';
 import { postCart } from '../../redux/actions/actionsCart';
 import { openNotification } from '../../functions/Notification';
-import axios from 'axios';
 const ProductDetailPage = () => {
     const param = useParams()
     const { data, isLoading } = useFetch(`${BASE_URL}/product/${param.id}`)
-    const { data: dataComment } = useFetch(`${BASE_URL}/product/comments/${param.id}`)
+    const { data: dataComment, isLoading: isLoadingComment } = useFetch(`${BASE_URL}/product/comments/${param.id}`)
     const dataDetail = data[0];
     const [sizeActive, setSizeActive] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,7 +63,7 @@ const ProductDetailPage = () => {
                 const body = {
                     size: sizeActive,
                     product_id: data.id,
-                    user_id: user.user.id
+                    user_id: user.user.id,
                 }
                 // console.log(body)
                 postCart(user?.accessToken, dispatch, body)
@@ -72,6 +71,7 @@ const ProductDetailPage = () => {
 
         }
     }
+    const rating = dataComment?.reduce((total, item) => (total + item.rating), 0) / dataComment?.length
     if (isLoading) {
         return <Loading />
     }
@@ -94,12 +94,16 @@ const ProductDetailPage = () => {
                                             {
                                                 dataComment.length ?
                                                     <>
-                                                        {(dataComment?.reduce((total, item) => (total + item.rating), 0)) / dataComment?.length}
+                                                        {rating}
+                                                        <Rate disabled allowHalf defaultValue={rating} />
                                                     </>
-                                                    : <>Chưa có đánh giá</>
+                                                    : <>
+                                                        Chưa có đánh giá
+                                                        <Rate disabled allowHalf defaultValue={0}></Rate>
+                                                    </>
                                             }
                                         </span>
-                                        <Rate disabled allowHalf defaultValue={(dataComment?.reduce((total, item) => (total + item.rating), 0)) / dataComment?.length} />
+
                                     </div>
                                 </div>
                                 <Divider />

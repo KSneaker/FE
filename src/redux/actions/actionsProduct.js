@@ -30,16 +30,17 @@ export const postProduct = async (accessToken, dispatch, body) => {
         // console.log(res.data.id)
         for (const item of sizeQuantity) {
             const size = { ...item, product_id: res.data.id }
-            console.log(size)
+            // console.log(size)
             const res_size = await axios.post(`${BASE_URL}/size`, size, {
                 headers: {
                     token: `Bearer ${accessToken}`
                 }
             })
         }
-
+        console.log('body', { ...body, id: res.data.id })
         dispatch(postProductSuccess({ ...body, id: res.data.id }))
     } catch (error) {
+        console.log('error', error)
         dispatch(postProductFailed())
     }
 }

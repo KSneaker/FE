@@ -1,9 +1,9 @@
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../../redux/actions/actionsAuth";
 import { Form, Input } from "antd";
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { openNotification } from "../../functions/Notification";
+import { loginUser } from "../../redux/actions/actionsAuth";
 import SubmitBtn from "./SubmitBtn";
 
 const FormSignIn = () => {
@@ -29,13 +29,13 @@ const FormSignIn = () => {
                 <Form.Item
                     name="username"
 
-                    rules={[{ required: true, message: 'Please input your Username!' }]}
+                    rules={[{ required: true, message: 'Vui lòng nhập tên tài khoản!' }]}
                 >
                     <Input size="large" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Tên đăng nhập" />
                 </Form.Item>
                 <Form.Item
                     name="password"
-                    rules={[{ required: true, message: 'Please input your Password!' }]}
+                    rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
                 >
                     <Input.Password
                         size="large"
@@ -52,7 +52,7 @@ const FormSignIn = () => {
                 </Form.Item>
 
                 <Form.Item >
-                    <SubmitBtn form={form} />
+                    <SubmitBtn form={form} text='Đăng nhập' />
                 </Form.Item>
                 <Form.Item>
                     Bạn mới biết đến KSneaker? <Link style={{ textDecoration: 'underline' }} to='/sign-up'>Đăng ký ngay</Link>

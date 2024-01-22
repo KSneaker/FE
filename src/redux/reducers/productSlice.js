@@ -27,21 +27,22 @@ const productSlice = createSlice({
 
         postProductSuccess: (state, action) => {
             // console.log('payload', action.payload)
+            console.log('action.payload', action.payload)
             const { sizeQuantity, ...other } = action.payload
             // console.log('size quantiy', sizeQuantity)
             const stock_quantity = sizeQuantity.reduce((total, item) => total + parseInt(item.quantity), 0)
             const concatenatedSizes = sizeQuantity.map((size) => size.size).join(',');
-
             // console.log('stock', stock_quantity)
             state.products.isFetching = false;
-            state.products.allProducts.data = [...state.products.allProducts.data, { id: action.payload.id, ...other, sizes: concatenatedSizes, stock_quantity: stock_quantity }]
+            // console.log('new', [...state.products.allProducts, { id: action.payload.id, ...other, sizes: concatenatedSizes, stock_quantity: stock_quantity }])
+            // state.products.allProducts = [...state.products.allProducts, { id: action.payload.id, ...other, sizes: sizeQuantity, stock_quantity: stock_quantity }]
+            state.products.allProducts = [...state.products.allProducts, { ...action.payload, stock_quantity: stock_quantity }]
         },
         postProductFailed: (state) => {
             state.products.error = true;
         },
 
         updateProductSuccess: (state, action) => {
-            // console.log('action.payload', action.payload)
             const { id, ...updatedProductData } = action.payload;
             state.products.isFetching = false;
             const index = state.products.allProducts.findIndex((product) => product.id === id);

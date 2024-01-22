@@ -19,17 +19,14 @@ const CheckoutPage = () => {
         code: '',
         discount: 0,
         name: "",
-        brand: ''
+        product: ''
     })
     const [voucherValue, setVoucherValue] = useState('')
     const [paymentMethod, setPaymentMethod] = useState('cod');
     const [formInfo] = Form.useForm();
-
-    const subTotalMoney = selectProducts?.reduce((total, product) => total + product.price, 0)
-
-    const discountMoney = (selectProducts.filter((item) => discount.brand?.includes(`${item.brand_id}`))).reduce((total, product) => total + product.price, 0) * discount.discount / 100
-
-
+    const subTotalMoney = selectProducts?.reduce((total, product) => total + product.price * product.quantity, 0)
+    const listProductAddVoucher = selectProducts.filter((item) => discount.product?.includes(`${item.product_id}`))
+    const discountMoney = listProductAddVoucher.reduce((total, product) => total + product.price, 0) * discount.discount / 100
     const totalMoney = subTotalMoney - discountMoney
     const handleInputChange = useCallback((event) => {
         setVoucherValue(event.target.value);
@@ -38,13 +35,14 @@ const CheckoutPage = () => {
         if (voucherValue) {
             const res = await axios.get(`${BASE_URL}/voucher/check-voucher/${voucherValue}`)
             if (res.data.valid) {
-                if (selectProducts.filter((item) => res.data.data.brand?.includes(`${item.brand_id}`)).length)
+                if (selectProducts.filter((item) => res.data.data.product?.includes(`${item.product_id}`)).length)
                     setDiscount({
                         code: res.data.data.code,
                         discount: res.data.data.discount,
                         name: res.data.data.name,
-                        brand: res.data.data.brand
+                        product: res.data.data.product
                     })
+
                 else {
                     openNotification('Mã giảm giá không phù hợp', 'error')
                 }
@@ -115,7 +113,7 @@ const CheckoutPage = () => {
                             }
                         }
 
-                        navigate('/payment?method=cod')
+                        navigate(`/payment?method=cod&order_code=${`KS${moment().format('YYMMDDhhmmss')}`}`)
 
                     }
                     catch (error) {
@@ -174,7 +172,6 @@ const CheckoutPage = () => {
                         language: 'vn',
                     })
                     if (res2.status === 200) {
-                        console.log(`KS${moment().format('YYMMDDhhmmss')}`)
                         window.location = res2.data
                     }
                 }
@@ -210,7 +207,7 @@ const CheckoutPage = () => {
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div className="text-wrapper">{VND.format(product.price)}</div>
+                                                <div className="text-wrapper">{VND.format(product.price * product.quantity)}</div>
 
                                             </div>
                                         )
@@ -228,50 +225,64 @@ const CheckoutPage = () => {
                                 </div>
 
                             </div>
-                            <div className="subtotal">
-                                {(!discount.code) ?
-                                    <>
-                                        <div className="">
-                                            <span className="title">Mã giảm giá: </span>
-                                            <input
-                                                type="text" value={voucherValue}
-                                                onChange={handleInputChange}
-                                                style={{
-                                                    outline: 'none',
-                                                    boxSizing: 'border-box',
-                                                    color: 'rgba(0, 0, 0, 0.88)',
-                                                    border: '1px solid #d9d9d9',
-                                                    borderRadius: 6,
-                                                    padding: '4px 11px'
-                                                }} />
-                                        </div>
-                                        <Button className='button' onClick={hanldleAddVoucher}>
-                                            Áp dụng
-                                        </Button>
-                                    </>
-                                    :
-                                    <>
-                                        <span className="title">
-                                            Mã giảm giá:
-                                            <span style={{ textTransform: 'uppercase' }}>
-                                                ({discount.code})
-                                            </span>
+                            {(!discount.code) ?
+                                <div className="subtotal">
+
+                                    <div className="">
+                                        <span className="title">Mã giảm giá: </span>
+                                        <input
+                                            type="text" value={voucherValue}
+                                            onChange={handleInputChange}
+                                            style={{
+                                                outline: 'none',
+                                                boxSizing: 'border-box',
+                                                color: 'rgba(0, 0, 0, 0.88)',
+                                                border: '1px solid #d9d9d9',
+                                                borderRadius: 6,
+                                                padding: '4px 11px'
+                                            }} />
+                                    </div>
+                                    <Button className='button' onClick={hanldleAddVoucher}>
+                                        Áp dụng
+                                    </Button>
+                                </div>
+                                :
+                                <div className="subtotal">
+                                    <span className="title">
+                                        Mã giảm giá:
+                                        <span style={{ textTransform: 'uppercase' }}>
+                                            ({discount.code})
                                         </span>
-                                        <Button className='button btn-danger' onClick={handleRemoveVoucher}>
-                                            X
-                                        </Button>
+                                    </span>
+                                    <div className="text-wrapper">
+                                        -{discount.discount}%
+                                    </div>
+                                    <Button className='button btn-danger' onClick={handleRemoveVoucher}>
+                                        X
+                                    </Button>
+                                    <div className="text-wrapper">
+                                        -{VND.format(discountMoney)}
+                                    </div>
+                                </div>
+                            }
 
-                                        <div className="text-wrapper">
-                                            -{discount.discount}%
-                                        </div>
-                                        <div className="text-wrapper">
-                                            -{VND.format(discountMoney)}
-                                        </div>
-                                    </>
+                            {(!discount.code) ?
+                                <></>
+                                :
+                                <div className="subtotal" style={{ alignItems: 'flex-start' }}>
+                                    <span className="title">
+                                        Sản phẩm áp dụng
+                                    </span>
+                                    <div >
+                                        {listProductAddVoucher?.map((item) => {
+                                            return (
+                                                <div> {item.title}</div>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            }
 
-                                }
-
-                            </div>
                             <div className="subtotal" style={{ border: 'none' }}>
                                 <span className="title">Tổng:</span>
                                 <div className="text-wrapper" >

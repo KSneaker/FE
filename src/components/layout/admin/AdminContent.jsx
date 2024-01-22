@@ -5,7 +5,8 @@ import {
     PercentageOutlined,
     UserOutlined,
     ShopOutlined,
-    CheckCircleOutlined
+    CheckCircleOutlined,
+    AreaChartOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Tooltip, Badge } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -16,7 +17,8 @@ import Header from './Header';
 import logo from '../../../assets/images/logo.png'
 const { Sider, Content } = Layout;
 const AdminContent = ({ children }) => {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    // const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    const currentUser = useSelector((state) => state.auth.login?.currentUser?.user)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     useEffect(() => {
@@ -42,7 +44,7 @@ const AdminContent = ({ children }) => {
                         items={[
                             {
                                 key: '1',
-                                icon: <HomeOutlined />,
+                                icon: <AreaChartOutlined />,
                                 label: <Link to=''>Trang chủ</Link>
                             },
                             {
@@ -52,23 +54,33 @@ const AdminContent = ({ children }) => {
                             },
                             {
                                 key: '3',
+                                icon: <DatabaseOutlined />,
+                                label: <Link to='image-product-manager'>Quản lý ảnh sản phẩm</Link>
+                            },
+                            {
+                                key: '4',
                                 icon: <UserOutlined />,
                                 label: <Link to='user-manager'>Quản lý người dùng</Link>
                             },
                             {
-                                key: '4',
+                                key: '5',
                                 icon: <ShopOutlined />,
                                 label: <Link to='orders-manager'>Quản lý đơn hàng</Link>
                             },
                             {
-                                key: '5',
+                                key: '6',
                                 icon: <CheckCircleOutlined />,
                                 label: <Link to='brand-manager'>Quản lý hãng</Link>
                             },
                             {
-                                key: '6',
+                                key: '7',
                                 icon: <PercentageOutlined />,
                                 label: <Link to='voucher-manager'>Quản lý mã giảm giá</Link>
+                            },
+                            {
+                                key: '8',
+                                icon: <HomeOutlined />,
+                                label: <Link to='/'>KSneaker</Link>
                             },
                         ]}
                     />

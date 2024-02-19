@@ -26,7 +26,7 @@ const FormSignUp = () => {
                 <Form.Item
                     name="username"
                     rules={[
-                        { required: true, message: 'Vui lòng nhập tên đăng ký!' }
+                        { required: true, message: 'Vui lòng nhập tên đăng nhập!' }
                         , ({ getFieldValue }) => ({
                             validator(_, value) {
                                 if (getFieldValue('username')?.indexOf(' ') === -1) {
@@ -37,11 +37,12 @@ const FormSignUp = () => {
                         }),
                     ]}
                 >
-                    <Input size="large" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Tên đăng nhập" />
+                    <Input autoFocus size="large" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Tên đăng nhập" />
                 </Form.Item>
                 <Form.Item
                     name="password"
-                    rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
+                    rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' },
+                    { min: 6, message: 'Cần ít nhất 6 kí tự!' },]}
                 >
                     <Input.Password
                         size="large" prefix={<LockOutlined className="site-form-item-icon" />}
@@ -77,7 +78,8 @@ const FormSignUp = () => {
                 <Form.Item
                     name="email"
                     rules={[
-                        { required: true, message: 'Vui lòng nhập email!' }
+                        { required: true, message: 'Vui lòng nhập email!' },
+                        { type: 'email', message: 'Địa chỉ email không hợp lệ!' },
                     ]}
                 >
                     <Input size="large" prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />

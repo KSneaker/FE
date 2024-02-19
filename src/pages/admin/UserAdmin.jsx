@@ -42,14 +42,14 @@ const User = () => {
             align: 'center'
         },
         {
-            title: 'Fullname',
+            title: 'Họ tên',
             key: 'fullname',
             dataIndex: 'fullname',
             align: 'center'
 
         },
         {
-            title: 'Username',
+            title: 'Tên đăng nhập',
             key: 'username',
             dataIndex: 'username',
             align: 'center'
@@ -61,7 +61,7 @@ const User = () => {
             align: 'center'
         },
         {
-            title: 'Phone Number',
+            title: 'Số điện thoại',
             key: 'phone_number',
             dataIndex: 'phone_number',
             align: 'center'
@@ -76,7 +76,7 @@ const User = () => {
         },
 
         {
-            title: 'Address',
+            title: 'Địa chỉ',
             key: 'address',
             dataIndex: 'address',
             align: 'center'
@@ -219,9 +219,6 @@ const User = () => {
                             <Form.Item
                                 name="phone_number"
                                 label="Số điện thoại"
-                                rules={[{
-                                    required: true, message: 'Vui lòng nhập họ tên!'
-                                }]}
                             >
                                 <Input placeholder="Số điện thoại" />
                             </Form.Item>
@@ -233,12 +230,6 @@ const User = () => {
                             <Form.Item
                                 name="address"
                                 label="Địa chỉ"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Vui lòng nhập',
-                                    },
-                                ]}
                             >
                                 <Input.TextArea rows={4} placeholder="Địa chỉ" />
                             </Form.Item>

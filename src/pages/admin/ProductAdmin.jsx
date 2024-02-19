@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { storageFirebase } from "./firebase";
 import { openNotification } from '../../functions/Notification';
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { PlusOutlined, MinusCircleOutlined, } from '@ant-design/icons';
+import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Modal, Upload, Button, Col, Form, Input, Row, Select, Space, Typography, notification, UploadFile, UploadProps, InputNumber } from 'antd';
 import TableProduct from "../../components/pages/admin/TableProduct";
 import { getAllBrands } from "../../redux/actions/actionsBrand";

@@ -35,7 +35,7 @@ const ListThumbs = ({ productID }) => {
                 {
                     modifiedData?.map((thumb, index) => {
                         return (
-                            <SwiperSlide key={index}>
+                            <SwiperSlide key={index} style={{ display: 'flex', alignItems: 'center' }}>
                                 <img className='thumb' src={thumb.thumbnail} alt="" />
                             </SwiperSlide>
                         )
@@ -48,14 +48,14 @@ const ListThumbs = ({ productID }) => {
                 slidesPerView={6}
                 spaceBetween={10}
                 freeMode={true}
-                watchSlidesProgress={true}
+                // watchSlidesProgress={true}
                 className='list'
                 modules={[FreeMode, Navigation, Thumbs]}
             >
                 {
                     modifiedData?.map((thumb, index) => {
                         return (
-                            <SwiperSlide key={index}>
+                            <SwiperSlide key={index} style={{ display: 'flex', alignItems: 'center' }}>
                                 <img className='list-thumb' src={thumb.thumbnail} alt="" />
                             </SwiperSlide>
                         )

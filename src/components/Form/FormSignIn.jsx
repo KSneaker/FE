@@ -28,10 +28,10 @@ const FormSignIn = () => {
             >
                 <Form.Item
                     name="username"
-
                     rules={[{ required: true, message: 'Vui lòng nhập tên tài khoản!' }]}
+
                 >
-                    <Input size="large" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Tên đăng nhập" />
+                    <Input autoFocus size="large" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Tên đăng nhập" />
                 </Form.Item>
                 <Form.Item
                     name="password"

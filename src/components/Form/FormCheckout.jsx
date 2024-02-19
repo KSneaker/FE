@@ -16,7 +16,7 @@ const FormCheckout = ({ onFinish, formInfo }) => {
                     name="fullname"
                     rules={[{ required: true, message: 'Vui lòng nhập họ tên!' }]}
                 >
-                    <Input />
+                    <Input autoFocus />
                 </Form.Item>
 
                 <Form.Item

@@ -1,13 +1,14 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import { Input, Rate, Form } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { dateFormat } from "../../../../functions/dateFormat";
 import SubmitBtn from "../../../Form/SubmitBtn";
 import { BASE_URL } from "../../../../config";
+import axios from "axios";
 
-const Comment = ({ dataComment }) => {
+const Comment = ({ dataComment, productID }) => {
     const currentUser = useSelector((state) => state.auth.login?.user)
     const navigate = useNavigate()
     const modifiedComment = dataComment.map((item) => {
@@ -18,24 +19,39 @@ const Comment = ({ dataComment }) => {
     })
     const [comment, setComment] = useState(modifiedComment)
     const [form] = Form.useForm();
-
-    const onFinish = (e) => {
+    useEffect(() => {
+        console.log('render')
+    }, [comment])
+    const onFinish = async (e) => {
         if (!currentUser) {
             navigate('/sign-in')
         } else {
+            // 
             const body = {
                 ...e,
-                avatar: currentUser.avatar,
-                fullname: currentUser.fullname,
-                created_at: moment().format('DD-MM-YYYY HH:mm:ss')
+                product_id: productID,
+                user_id: currentUser.id,
+                created_at: dayjs().format('YYYY-MM-DD HH:mm:ss')
             }
-            setComment(
-                [...comment,
-                    body
-                ]
-            )
-            form.resetFields()
+            const res = await axios.post(`${BASE_URL}/product/comment`, body)
+            if (res.data) {
+                console.log('body', body)
+                const newComment = {
+                    ...body,
+                    avatar: currentUser.avatar,
+                    fullname: currentUser.fullname,
+                    created_at: dayjs().format('DD-MM-YYYY HH:mm:ss')
+                }
+                setComment(
+                    [...comment,
+                        newComment
+                    ]
+                )
+                form.resetFields()
+                console.log(e)
+            }
         }
+
     }
     return (
         <div className="row justify-content-between">

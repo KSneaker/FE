@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from '../../config'
-import { getVouchersFailed, getVouchersSuccess, postVoucherFailed, postVoucherSuccess, updateVoucherFailed, updateVoucherSuccess } from "../reducers/voucherSlice";
+import { deleteVoucherFailed, deleteVoucherSuccess, getVouchersFailed, getVouchersSuccess, postVoucherFailed, postVoucherSuccess, updateVoucherFailed, updateVoucherSuccess } from "../reducers/voucherSlice";
 
 export const getAllVouchers = async (accessToken, dispatch) => {
     try {
@@ -39,5 +39,19 @@ export const updateVoucher = async (accessToken, dispatch, body) => {
         dispatch(updateVoucherSuccess(res.data))
     } catch (error) {
         dispatch(updateVoucherFailed())
+    }
+}
+
+export const deleteVoucher = async (accessToken, dispatch, id, openNotifycation) => {
+    try {
+        const res = await axios.delete(`${BASE_URL}/voucher/${id}`, {
+            headers: {
+                token: `Bearer ${accessToken}`
+            }
+        })
+        dispatch(deleteVoucherSuccess(id))
+        openNotifycation('Xóa thành công', 'success')
+    } catch (error) {
+        dispatch(deleteVoucherFailed())
     }
 }

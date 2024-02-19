@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { BASE_URL } from '../../config';
 import { openNotification } from '../../functions/Notification';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const CheckoutPage = () => {
     const user = useSelector((state) => state.auth.login.currentUser)
@@ -26,7 +26,7 @@ const CheckoutPage = () => {
     const [formInfo] = Form.useForm();
     const subTotalMoney = selectProducts?.reduce((total, product) => total + product.price * product.quantity, 0)
     const listProductAddVoucher = selectProducts.filter((item) => discount.product?.includes(`${item.product_id}`))
-    const discountMoney = listProductAddVoucher.reduce((total, product) => total + product.price, 0) * discount.discount / 100
+    const discountMoney = listProductAddVoucher.reduce((total, product) => total + product.price * product.quantity, 0) * discount.discount / 100
     const totalMoney = subTotalMoney - discountMoney
     const handleInputChange = useCallback((event) => {
         setVoucherValue(event.target.value);
@@ -73,7 +73,7 @@ const CheckoutPage = () => {
                             user_id: user.user.id,
                             payment_method: paymentMethod,
                             total_money: totalMoney,
-                            order_code: `KS${moment().format('YYMMDDhhmmss')}`
+                            order_code: `KS${dayjs().format('YYMMDDhhmmss')}`
                         };
                         const res = await axios.post(`${BASE_URL}/orders`, body, {
                             headers: {
@@ -86,7 +86,7 @@ const CheckoutPage = () => {
                                 const bodyDetail = {
                                     order_id: res.data.id,
                                     product_id: selectProducts[i].product_id,
-                                    price: selectProducts[i].price,
+                                    price: discount.product?.includes(`${selectProducts[i].product_id}`) ? selectProducts[i].price * (1 - discount.discount / 100) : selectProducts[i].price,
                                     quantity: selectProducts[i].quantity,
                                     size: selectProducts[i].size
                                 }
@@ -94,6 +94,8 @@ const CheckoutPage = () => {
                                     product_id: selectProducts[i].product_id,
                                     size: selectProducts[i].size
                                 }
+
+                                console.log('bodyDecreaseSize>>>>>', bodyDecreaseSize)
                                 // console.log(body)
                                 const res1 = await axios.post(`${BASE_URL}/orders/order-details`, bodyDetail, {
                                     headers: {
@@ -113,7 +115,7 @@ const CheckoutPage = () => {
                             }
                         }
 
-                        navigate(`/payment?method=cod&order_code=${`KS${moment().format('YYMMDDhhmmss')}`}`)
+                        navigate(`/payment?method=cod&order_code=${`KS${dayjs().format('YYMMDDhhmmss')}`}`)
 
                     }
                     catch (error) {
@@ -121,12 +123,13 @@ const CheckoutPage = () => {
                     }
                 }
                 else {
+                    const order_code = `KS${dayjs().format('YYMMDDhhmmss')}`
                     const body = {
                         ...values,
                         user_id: user.user.id,
                         payment_method: paymentMethod,
                         total_money: totalMoney,
-                        order_code: `KS${moment().format('YYMMDDhhmmss')}`,
+                        order_code: order_code,
                         status: 5
                     };
                     const res = await axios.post(`${BASE_URL}/orders`, body, {
@@ -140,7 +143,7 @@ const CheckoutPage = () => {
                             const bodyDetail = {
                                 order_id: res.data.id,
                                 product_id: selectProducts[i].product_id,
-                                price: selectProducts[i].price,
+                                price: discount.product?.includes(`${selectProducts[i].product_id}`) ? selectProducts[i].price * (1 - discount.discount / 100) : selectProducts[i].price,
                                 quantity: selectProducts[i].quantity,
                                 size: selectProducts[i].size
                             }
@@ -148,7 +151,8 @@ const CheckoutPage = () => {
                                 product_id: selectProducts[i].product_id,
                                 size: selectProducts[i].size
                             }
-                            // console.log(body)
+
+                            console.log(body)
                             const res1 = await axios.post(`${BASE_URL}/orders/order-details`, bodyDetail, {
                                 headers: {
                                     token: `Bearer ${user.accessToken}`
@@ -170,6 +174,7 @@ const CheckoutPage = () => {
                         amount: totalMoney,
                         bankCode: '',
                         language: 'vn',
+                        order_code: order_code
                     })
                     if (res2.status === 200) {
                         window.location = res2.data
@@ -296,7 +301,7 @@ const CheckoutPage = () => {
                 <div className="col-xxl-7 col-xl-6 col-md-6">
                     <FormCheckout formInfo={formInfo} />
                     <div style={{ padding: 20, boxShadow: 'rgba(0, 0, 0, 0.12) 0 0 0 1px', borderRadius: 5, marginTop: 10 }}>
-                        <h5 style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)', padding: 10 }}>Hình thức thanh toán</h5>
+                        <h5 style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)', padding: 10, marginBottom: 10 }}>Hình thức thanh toán</h5>
                         <div className="">
                             <Radio.Group onChange={(e) => setPaymentMethod(e.target.value)} value={paymentMethod}>
                                 <Radio value="cod">Thanh toán khi nhận hàng</Radio>

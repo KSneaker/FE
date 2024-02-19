@@ -5,7 +5,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/grid';
 import 'swiper/css/scrollbar';
 import Button from '../../components/UI/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal, Rate, Spin } from 'antd';
 import Divider from '../../components/UI/Divider';
 import ListThumbs from '../../components/pages/user/Body/ListThumbs';
@@ -97,7 +97,7 @@ const ProductDetailPage = () => {
                                                 {
                                                     dataComment.length ?
                                                         <>
-                                                            {rating}
+                                                            {rating.toFixed(1)}
                                                             <Rate disabled allowHalf defaultValue={rating} />
                                                         </>
                                                         : <>

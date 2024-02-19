@@ -31,9 +31,9 @@ const Banner = () => (
         <SwiperSlide>
             <img className='banner' src={slide1} alt="" />
         </SwiperSlide>
-        <SwiperSlide>
+        {/* <SwiperSlide>
             <img className='banner' src={slide1} alt="" />
-        </SwiperSlide>
+        </SwiperSlide> */}
     </Swiper>
 
 );

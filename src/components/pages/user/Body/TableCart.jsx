@@ -6,7 +6,7 @@ const TableCart = ({ ...props }) => {
     const { allCart, handleDecreaseQuantity, handleIncreaseQuantity, handleRemoveCart, handleSelectionChange } = props;
     const columns = [
         {
-            title: 'ẢNH',
+            title: 'Ảnh',
             dataIndex: 'thumbnail',
             align: 'center',
             width: 150,
@@ -19,7 +19,7 @@ const TableCart = ({ ...props }) => {
             }
         },
         {
-            title: 'TÊN',
+            title: 'Tên sản phẩm',
             dataIndex: 'title',
             align: 'center',
             render: (title) => {
@@ -31,7 +31,7 @@ const TableCart = ({ ...props }) => {
             }
         },
         {
-            title: 'KÍCH CỠ',
+            title: 'Kích cỡ',
             dataIndex: 'size',
             align: 'center',
             width: 150,
@@ -44,7 +44,7 @@ const TableCart = ({ ...props }) => {
             }
         },
         {
-            title: 'GIÁ',
+            title: 'Đơn giá',
             dataIndex: 'price',
             align: 'center',
             width: 200,
@@ -55,18 +55,19 @@ const TableCart = ({ ...props }) => {
             }
         },
         {
-            title: 'SỐ LƯỢNG',
+            title: 'Số lượng',
+            dataIndex: 'quantity',
             align: 'center',
             width: 250,
-            render: (cart) => <div className="d-flex justify-content-center" >
+            render: (quantity, record) => <div className="d-flex justify-content-center" >
                 <button className="button"
-                    onClick={() => handleDecreaseQuantity(cart)}>-</button>
-                <input className="button" type="text" value={cart.quantity} readOnly style={{ width: 50, textAlign: 'center', outline: 'none' }} />
-                <button className="button" onClick={() => handleIncreaseQuantity(cart)}>+</button>
+                    onClick={() => handleDecreaseQuantity(record)}>-</button>
+                <input className="button" type="text" value={quantity} readOnly style={{ width: 50, textAlign: 'center', outline: 'none' }} />
+                <button className="button" onClick={() => handleIncreaseQuantity(record)}>+</button>
             </div>
         },
         {
-            title: 'TẠM TÍNH',
+            title: 'Tạm tính',
             dataIndex: 'price',
             align: 'center',
             width: 200,

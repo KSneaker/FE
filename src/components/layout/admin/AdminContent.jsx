@@ -6,7 +6,9 @@ import {
     UserOutlined,
     ShopOutlined,
     CheckCircleOutlined,
-    AreaChartOutlined
+    AreaChartOutlined,
+    FileImageOutlined,
+    DollarCircleOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Tooltip, Badge } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -54,7 +56,7 @@ const AdminContent = ({ children }) => {
                             },
                             {
                                 key: '3',
-                                icon: <DatabaseOutlined />,
+                                icon: <FileImageOutlined />,
                                 label: <Link to='image-product-manager'>Quản lý ảnh sản phẩm</Link>
                             },
                             {
@@ -70,7 +72,7 @@ const AdminContent = ({ children }) => {
                             {
                                 key: '6',
                                 icon: <CheckCircleOutlined />,
-                                label: <Link to='brand-manager'>Quản lý hãng</Link>
+                                label: <Link to='brand-manager'>Quản lý thương hiệu</Link>
                             },
                             {
                                 key: '7',

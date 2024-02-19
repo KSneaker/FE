@@ -15,7 +15,7 @@ import LoginLayout from '../components/layout/login';
 import BrandAdmin from '../pages/admin/BrandAdmin';
 import WishlistPage from '../pages/user/WishlistPage';
 import ProtectedRoute from './ProtectedRoute';
-import CheckoutPage from '../pages/user/CheckoutPage1';
+import CheckoutPage from '../pages/user/CheckoutPage';
 import OrderAdmin from '../pages/admin/OrderAdmin';
 import VoucherAdmin from '../pages/admin/VoucherAdmin';
 import PaymentResult from '../pages/user/PaymentResult';

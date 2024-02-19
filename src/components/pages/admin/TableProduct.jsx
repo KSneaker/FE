@@ -38,7 +38,7 @@ const TableProduct = ({ openEdit }) => {
             width: 100
         },
         {
-            title: 'Tên SP',
+            title: 'Tên Sản Phẩm',
             key: 'title',
             dataIndex: 'title',
             align: 'center',
@@ -60,16 +60,13 @@ const TableProduct = ({ openEdit }) => {
             align: 'center',
             render: (thumbnail) => <img src={thumbnail} width={100} alt="" />
         },
-        {
-            title: 'Mô tả',
-            key: 'description',
-            dataIndex: 'description',
-            align: 'center',
-            width: 200,
-
-
-
-        },
+        // {
+        //     title: 'Mô tả',
+        //     key: 'description',
+        //     dataIndex: 'description',
+        //     align: 'center',
+        //     width: 200,
+        // },
         {
             title: 'Kích cỡ & Số lượng ',
             key: 'size_quantity',

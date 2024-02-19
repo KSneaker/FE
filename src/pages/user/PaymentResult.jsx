@@ -7,7 +7,6 @@ import { BASE_URL } from "../../config";
 
 const PaymentResult = () => {
     const { height } = useWindowDimensions();
-    const location = useLocation()
     const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams()
     const method = searchParams.get('method')

@@ -1,8 +1,4 @@
 import React, { useEffect } from 'react';
-import {
-    CloseOutlined, MinusCircleOutlined
-    , PlusOutlined
-} from '@ant-design/icons';
 import { Button, Card, Col, Form, Input, Row, Space, Table, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers } from '../../redux/actions/actionsUser';
@@ -114,7 +110,7 @@ const Dashboard = () => {
     const { data: dataPie } = useFetch('http://localhost:8080/orders/chart/order')
     const { data: profit } = useFetch('http://localhost:8080/orders/chart/profit')
     const { data: allComments } = useFetch('http://localhost:8080/product/comments')
-    // console.log(profit)
+    console.log(dataPie)
 
     const count = [
         {

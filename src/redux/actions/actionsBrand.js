@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from '../../config'
-import { getBrandsFailed, getBrandsSuccess, postBrandFailed, postBrandsuccess, updateBrandFailed, updateBrandSuccess } from "../reducers/brandSlice";
+import { deleteBrandFailed, deleteBrandSuccess, getBrandsFailed, getBrandsSuccess, postBrandFailed, postBrandsuccess, updateBrandFailed, updateBrandSuccess } from "../reducers/brandSlice";
 
 export const getAllBrands = async (accessToken, dispatch) => {
     try {
@@ -39,5 +39,19 @@ export const updateBrand = async (accessToken, dispatch, body) => {
         dispatch(updateBrandSuccess(res.data))
     } catch (error) {
         dispatch(updateBrandFailed())
+    }
+}
+
+export const deleteBrand = async (accessToken, dispatch, id, openNotifycation) => {
+    try {
+        const res = await axios.delete(`${BASE_URL}/brand/${id}`, {
+            headers: {
+                token: `Bearer ${accessToken}`
+            }
+        })
+        dispatch(deleteBrandSuccess(id))
+        openNotifycation('Xóa thành công', 'success')
+    } catch (error) {
+        dispatch(deleteBrandFailed())
     }
 }

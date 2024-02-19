@@ -43,6 +43,7 @@ const BrandAdmin = () => {
             setOpen(false)
         }
     }
+
     return (
         <div style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
             <div className="d-flex justify-content-between align-items-center" style={{ marginBottom: 20 }}>

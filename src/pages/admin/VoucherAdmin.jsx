@@ -1,7 +1,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react'
-import { getAllVouchers, postVoucher, updateVoucher } from "../../redux/actions/actionsVoucher";
+import { deleteVoucher, getAllVouchers, postVoucher, updateVoucher } from "../../redux/actions/actionsVoucher";
 import {
     PlusOutlined, SettingOutlined, EditOutlined, DeleteOutlined
 } from '@ant-design/icons';
@@ -41,6 +41,9 @@ const VoucherAdmin = () => {
             created_at: dayjs(`${record.created_at}`, 'DD-MM-YYYY'),
             expiration_date: dayjs(`${record.expiration_date}`, 'DD-MM-YYYY'),
         });
+    }
+    const handleDelete = (record) => {
+        deleteVoucher(user?.accessToken, dispatch, record.id, openNotification)
     }
     const filterOption = (input, option) =>
         (option?.title ?? '').toLowerCase().includes(input.toLowerCase());
@@ -106,7 +109,7 @@ const VoucherAdmin = () => {
             // render: (name) => <div dangerouslySetInnerHTML={{ __html: name }} />
         },
         {
-            title: 'Giảm giá',
+            title: 'Giảm giá(%)',
             key: 'discount',
             dataIndex: 'discount',
             align: 'center'
@@ -131,7 +134,7 @@ const VoucherAdmin = () => {
                             <EditOutlined />
                         </Button>
                         <Popconfirm title="Sure to delete?"
-                            onConfirm={() => { }}
+                            onConfirm={() => handleDelete(record)}
                         >
                             <Button type="primary" size={'large'} danger style={{ display: 'flex', alignItems: 'center' }} >
                                 <DeleteOutlined />
@@ -143,12 +146,6 @@ const VoucherAdmin = () => {
 
         },
     ];
-    const [dataEdit, setDataEdit] = useState('')
-    const onEditorChange = (event, editor) => {
-        const data = editor.getData();
-        console.log(typeof data, data)
-        setDataEdit(data);
-    };
     return (
         <div style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
             <div className="d-flex justify-content-between align-items-center" style={{ marginBottom: 20 }}>
@@ -219,12 +216,6 @@ const VoucherAdmin = () => {
                                 }]}
                             >
                                 <Input placeholder="VD: Giảm giá năm mới" />
-
-                                {/* <CKEditor
-                                    data={form.getFieldValue(['name'])}
-                                    editor={ClassicEditor}
-                                    onChange={onEditorChange}
-                                /> */}
                             </Form.Item>
                         </Col>
                     </Row>
@@ -295,7 +286,6 @@ const VoucherAdmin = () => {
                                     placeholder="Chọn sản phẩm"
                                     options={allProducts}
                                     filterOption={filterOption}
-                                // virtual={false}
                                 />
                             </Form.Item>
 

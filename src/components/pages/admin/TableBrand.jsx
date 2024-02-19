@@ -1,10 +1,11 @@
 
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "antd";
+import { Button, Popconfirm } from "antd";
 import Table from "antd/es/table";
-import { SettingOutlined, EditOutlined } from '@ant-design/icons';
-import { getAllBrands } from "../../../redux/actions/actionsBrand";
+import { SettingOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { deleteBrand, getAllBrands } from "../../../redux/actions/actionsBrand";
+import { openNotification } from '../../../functions/Notification';
 
 const TableBrand = ({ openEdit }) => {
     const user = useSelector((state) => state.auth.login?.currentUser)
@@ -14,6 +15,9 @@ const TableBrand = ({ openEdit }) => {
         getAllBrands(user?.accessToken, dispatch)
     }, [])
     const allBrands = useSelector((state) => state.brands.brands?.allBrands?.data)
+    const handleDelete = (brand) => {
+        deleteBrand(user?.accessToken, dispatch, brand.id, openNotification)
+    }
     const columns = [
         {
             title: 'ID',
@@ -45,6 +49,13 @@ const TableBrand = ({ openEdit }) => {
                         >
                             <EditOutlined />
                         </Button>
+                        <Popconfirm title="Bạn có muốn xóa (Nếu xóa sẽ xóa tất cả sản phẩm thuộc thương hiệu này)?"
+                            onConfirm={() => handleDelete(brand)}
+                        >
+                            <Button type="primary" size={'large'} danger style={{ display: 'flex', alignItems: 'center' }} >
+                                <DeleteOutlined />
+                            </Button>
+                        </Popconfirm>
                     </div>
                 )
             }

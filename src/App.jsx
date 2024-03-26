@@ -1,8 +1,8 @@
 import { useRef, useEffect } from 'react';
 import './assets/styles/styles.css'
 import SwitchRoute from './routes';
-import { io } from 'socket.io-client';
-const socket = io.connect('http://localhost:80')
+// import { io } from 'socket.io-client';
+// const socket = io.connect('http://localhost:80')
 function App() {
   useEffect(() => {
     const handleScrollToTop = () => {

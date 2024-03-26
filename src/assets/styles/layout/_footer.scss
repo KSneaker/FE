@@ -5,6 +5,7 @@
         .about{
             padding: 40px;
             display: flex;
+            flex-wrap: wrap;
             flex-direction: row;
             justify-content: space-around;
             box-shadow: rgba(255, 255, 255, 0.12) 0px 1px 0px;

@@ -16,7 +16,7 @@ const Search = () => {
     });
     const results = fuse.search(searchInput);
     const fuzzyData = searchInput ? results.map(result => result.item) : allProducts;
-    console.log('fuzzyData', fuzzyData)
+    // console.log('fuzzyData', fuzzyData)
     return (
         <div className="search-input col-sm-4 col-md-6 col-lg-2 col-xl-2"  >
             <i className="fa-solid fa-magnifying-glass"></i>

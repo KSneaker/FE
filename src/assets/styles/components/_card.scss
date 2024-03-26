@@ -13,14 +13,11 @@
     .card{
         border: 1px solid rgba(0, 0, 0, 0.12);
         border-radius: 6px;
-        .image{
             img{
                 border-radius: 6px;
                 width: 100%;
                 min-height: 410px;
             }
-            
-        }
         .details{
             padding: 10px;
             display: flex;

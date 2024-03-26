@@ -24,6 +24,7 @@ import UserPage from '../pages/user/UserPage';
 import UserProfile from '../components/pages/user/Body/UserProfile';
 import UserOrder from '../components/pages/user/Body/UserOrder';
 import ImageProductAdmin from '../pages/admin/ImageProductAdmin';
+import ChatPage from '../pages/user/ChatPage';
 
 
 const SwitchRoute = () => {
@@ -46,6 +47,7 @@ const SwitchRoute = () => {
                 <Route path='allProducts' element={<ProductPage />}></Route>
                 <Route path='allProducts/:slug' element={<ProductPage />}></Route>
                 <Route path='product/:id' element={<ProductDetailPage />}></Route>
+                <Route path='chat' element={<ChatPage />}></Route>
                 <Route path="*" element={<NotFound />} />
                 <Route path='payment' element={<PaymentResult />}></Route>
             </Route>

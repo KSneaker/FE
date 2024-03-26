@@ -4461,6 +4461,7 @@ table {
 #footer .wrapper .about {
   padding: 40px;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-around;
   box-shadow: rgba(255, 255, 255, 0.12) 0px 1px 0px;
@@ -4598,7 +4599,7 @@ table {
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 6px;
 }
-.card-wrapper .card .image img {
+.card-wrapper .card img {
   border-radius: 6px;
   width: 100%;
   min-height: 410px;

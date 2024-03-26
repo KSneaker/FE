@@ -1,7 +1,7 @@
 const Footer = () => {
     return (
         <div className="page-container wrapper">
-            <div className="about row">
+            <div className="about ">
                 <div className=" col-lg-3 col-sm-6 col-12 ">
                     <span className="title" >Chăm sóc khách hàng</span>
                     <ul>

@@ -1,25 +1,25 @@
-import Fuse from "fuse.js";
+// import Fuse from "fuse.js";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 const Search = () => {
-    const allProducts = useSelector((state) => state.products.products?.allProducts)
-    // console.log(allProducts)
-    const [searchInput, setSearchInput] = useState('');
-    const handleSearch = (e) => {
-        setSearchInput(e.target.value)
-    }
-    // console.log(allProducts)
-    const fuse = new Fuse(allProducts, {
-        keys: ['title', 'description'], // Các trường bạn muốn tìm kiếm
-        includeScore: true // Bật tính năng đánh giá kết quả
-    });
-    const results = fuse.search(searchInput);
-    const fuzzyData = searchInput ? results.map(result => result.item) : allProducts;
-    // console.log('fuzzyData', fuzzyData)
+    // const allProducts = useSelector((state) => state.products.products?.allProducts)
+    // // console.log(allProducts)
+    // const [searchInput, setSearchInput] = useState('');
+    // const handleSearch = (e) => {
+    //     setSearchInput(e.target.value)
+    // }
+    // // console.log(allProducts)
+    // const fuse = new Fuse(allProducts, {
+    //     keys: ['title', 'description'], // Các trường bạn muốn tìm kiếm
+    //     includeScore: true // Bật tính năng đánh giá kết quả
+    // });
+    // const results = fuse.search(searchInput);
+    // const fuzzyData = searchInput ? results.map(result => result.item) : allProducts;
+    // // console.log('fuzzyData', fuzzyData)
     return (
         <div className="search-input col-sm-4 col-md-6 col-lg-2 col-xl-2"  >
-            <i className="fa-solid fa-magnifying-glass"></i>
+{/*             <i className="fa-solid fa-magnifying-glass"></i>
             <input type="text" placeholder="Tìm kiếm..." className="input" value={searchInput}
                 onChange={handleSearch} />
             {
@@ -42,7 +42,7 @@ const Search = () => {
                         })
                     }
                 </ul>
-            }
+            } */}
         </div>
     );
 }
